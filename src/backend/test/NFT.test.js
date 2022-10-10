@@ -24,8 +24,8 @@ describe("NFT", async function() {
 
     describe("Deployment", function() {
         it("Should track name and symbol of the nft collection", async function() {
-            expect(await nft.name()).to.equal("Gelatoverse Genesis")
-            expect(await nft.symbol()).to.equal("GG")
+            expect(await nft.name()).to.equal("PORK NFT")
+            expect(await nft.symbol()).to.equal("PN")
         })
 
         it("Should have 333 NFTs minted and belonging to the team wallet", async function() {

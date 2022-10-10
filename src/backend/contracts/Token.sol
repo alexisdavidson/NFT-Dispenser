@@ -2,10 +2,10 @@
 pragma solidity ^0.8.4;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "./NFTStaker.sol";
+import "./Dispenser.sol";
 
 contract Token is ERC20 {
-    constructor(address[] memory _minterAddresses, uint256[] memory _tokenAmount) ERC20("Beach Coin", "BC") {
+    constructor(address[] memory _minterAddresses, uint256[] memory _tokenAmount) ERC20("PORK Coin", "PC") {
         uint256 _minterAddressesLength = _minterAddresses.length;
         uint256 _tokenAmountLength = _tokenAmount.length;
         require(_minterAddressesLength == _tokenAmountLength, "Minter Addresses and Token Amount arrays need to have the same size.");

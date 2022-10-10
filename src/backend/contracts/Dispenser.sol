@@ -8,7 +8,7 @@ import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "hardhat/console.sol";
 
-contract NFTStaker is ERC721Holder, ReentrancyGuard, Ownable {
+contract Dispenser is ERC721Holder, ReentrancyGuard, Ownable {
     ERC721A public parentNFT;
     ERC20 public rewardsToken;
 

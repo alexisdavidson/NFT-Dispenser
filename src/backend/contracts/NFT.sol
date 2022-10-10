@@ -27,7 +27,7 @@ contract NFT is ERC721A, Ownable {
         address user
     );
 
-    constructor(address teamAddress, address[] memory _usersToWhitelist) ERC721A("Gelatoverse Genesis", "GG")
+    constructor(address teamAddress, address[] memory _usersToWhitelist) ERC721A("PORK NFT", "PN")
     {
         // Set whitelist
         delete whitelistedAddresses;

@@ -15,8 +15,8 @@ import NFTAbi from '../contractsData/NFT.json'
 import NFTAddress from '../contractsData/NFT-address.json'
 import TokenAbi from '../contractsData/Token.json'
 import TokenAddress from '../contractsData/Token-address.json'
-import StakerAbi from '../contractsData/NFTStaker.json'
-import StakerAddress from '../contractsData/NFTStaker-address.json'
+import DispenserAbi from '../contractsData/Dispenser.json'
+import DispenserAddress from '../contractsData/Dispenser-address.json'
 
 function App() {
   const [loading, setLoading] = useState(true)

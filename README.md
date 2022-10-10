@@ -1,5 +1,5 @@
-# Gelato (Hardhat-Solidity-React)
-This app lets you connect your MetaMask wallet and allows you to mint and stake Gelato NFTs
+# NFT Dispenser (Hardhat-Solidity-React)
+This app lets you connect your MetaMask wallet and allows you to trigger the NFT Dispenser to mint a random NFT
 
 ## Technology Stack
 The smart contracts are developed using solidity and following [OpenZeppelin ERC721a](https://github.com/chiru-labs/ERC721A).
