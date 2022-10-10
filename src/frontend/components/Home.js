@@ -3,7 +3,7 @@ import { ethers } from "ethers"
 import { Row, Col, Card, Button, Form, InputGroup } from 'react-bootstrap'
 import configContract from './configContract';
 
-const Home = ({ account, nft, token, staker }) => {
+const Home = ({ account, nft, token, dispenser }) => {
     const [loading, setLoading] = useState(true)
     const [mintQuantity, setMintQuantity] = useState(1)
     const [stakeId, setStakeId] = useState(null)
@@ -59,9 +59,9 @@ const Home = ({ account, nft, token, staker }) => {
     const stake = async () => {
         if (stakeId != null) {
             console.log("Set approval for all");
-            await nft.setApprovalForAll(staker.address, true);
+            await nft.setApprovalForAll(dispenser.address, true);
             console.log("Staking " + stakeId + " nft...")
-            await(await staker.stake(stakeId)).wait()
+            await(await dispenser.stake(stakeId)).wait()
             window.location.reload();
         }
     }
@@ -72,7 +72,7 @@ const Home = ({ account, nft, token, staker }) => {
     const unstake = async () => {
         if (unstakeId != null) {
             console.log("Unstaking " + unstakeId + " nft...")
-            await(await staker.unstake(unstakeId)).wait()
+            await(await dispenser.unstake(unstakeId)).wait()
             window.location.reload();
         }
     }
@@ -80,7 +80,7 @@ const Home = ({ account, nft, token, staker }) => {
     const handleOwnerOf = async event => {
         let tokenId = event.target.value;
         console.log('ownerOf Nft ' + tokenId + ' is: ' + (await nft.ownerOf(tokenId)));
-        console.log('balanceOf Token is: ' + (await token.balanceOf(staker.address)));
+        console.log('balanceOf Token is: ' + (await token.balanceOf(dispenser.address)));
     };
 
     useEffect(() => {

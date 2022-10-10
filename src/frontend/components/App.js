@@ -23,7 +23,7 @@ function App() {
   const [account, setAccount] = useState(null)
   const [nft, setNFT] = useState({})
   const [token, setToken] = useState({})
-  const [staker, setStaker] = useState({})
+  const [dispenser, setDispenser] = useState({})
 
   // MetaMask Login/Connect
   const web3Handler = async () => {
@@ -40,11 +40,11 @@ function App() {
   const loadContracts = async (signer) => {
     const nft = new ethers.Contract(NFTAddress.address, NFTAbi.abi, signer)
     const token = new ethers.Contract(TokenAddress.address, TokenAbi.abi, signer)
-    const staker = new ethers.Contract(StakerAddress.address, StakerAbi.abi, signer)
+    const dispenser = new ethers.Contract(DispenserAddress.address, DispenserAbi.abi, signer)
 
     setNFT(nft)
     setToken(token)
-    setStaker(staker)
+    setDispenser(dispenser)
     setLoading(false)
   }
 
@@ -60,7 +60,7 @@ function App() {
         ) : (
           <Routes>
             <Route path="/" element={
-              <Home account={account} nft={nft} token={token} staker={staker} />
+              <Home account={account} nft={nft} token={token} dispenser={dispenser} />
             } />
           </Routes>
         ) }

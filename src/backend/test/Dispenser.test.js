@@ -9,7 +9,7 @@ describe("Dispenser", async function() {
     let teamWallet = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
     let whitelist = []
 
-    const stakerTokenAmount = 73000000
+    const dispenserTokenAmount = 73000000
     const teamTokenAmount = 149000000
         
     let secondsInDay = 86400
@@ -29,15 +29,15 @@ describe("Dispenser", async function() {
         // Deploy contracts
         nft = await NFT.deploy(teamWallet, whitelist);
         dispenser = await Dispenser.deploy(nft.address);
-        token = await Token.deploy([Dispenser.address, teamWallet], [stakerTokenAmount, teamTokenAmount]);
+        token = await Token.deploy([Dispenser.address, teamWallet], [dispenserTokenAmount, teamTokenAmount]);
         await dispenser.setOwnerAndTokenAddress(teamWallet, token.address);
     });
 
     describe("Deployment", function() {
-        it("Should mint tokens for staker contract and team", async function() {
-            expect(fromWei(await token.balanceOf(dispenser.address))).to.equals(stakerTokenAmount);
+        it("Should mint tokens for dispenser contract and team", async function() {
+            expect(fromWei(await token.balanceOf(dispenser.address))).to.equals(dispenserTokenAmount);
             expect(fromWei(await token.balanceOf(teamWallet))).to.equals(teamTokenAmount);
-            expect(fromWei(await token.totalSupply())).to.equals(stakerTokenAmount + teamTokenAmount);
+            expect(fromWei(await token.totalSupply())).to.equals(dispenserTokenAmount + teamTokenAmount);
             
             expect((await dispenser.rewardRate()).toString()).to.equal(rewardRate);
         })
@@ -60,7 +60,7 @@ describe("Dispenser", async function() {
 
             expect((await nft.ownerOf(333))).to.equals(dispenser.address);
             expect((await token.balanceOf(addr1.address))).to.equals(0);
-            expect(fromWei(await token.balanceOf(dispenser.address))).to.equals(stakerTokenAmount);
+            expect(fromWei(await token.balanceOf(dispenser.address))).to.equals(dispenserTokenAmount);
 
             // Unstake after 10 days
             const tenDays = 10 * 24 * 60 * 60 + 10;
@@ -71,10 +71,10 @@ describe("Dispenser", async function() {
 
             // Expecting 50 units as reward
             console.log("Expected Reward: " + fromWei((rewardRate * tenDays).toString()))
-            console.log("Staker actual new balance: " + fromWei(await token.balanceOf(addr1.address)))
+            console.log("Dispenser actual new balance: " + fromWei(await token.balanceOf(addr1.address)))
 
             expect(fromWei(await token.balanceOf(addr1.address))).to.equals(fromWei((rewardRate * tenDays).toString()));
-            expect(fromWei(await token.balanceOf(dispenser.address))).to.equals(stakerTokenAmount - fromWei((rewardRate * tenDays).toString()));
+            expect(fromWei(await token.balanceOf(dispenser.address))).to.equals(dispenserTokenAmount - fromWei((rewardRate * tenDays).toString()));
         })
 
         it("Should claim 10 days rewards for a 10 days mission and 20 days staking", async function() {
@@ -94,7 +94,7 @@ describe("Dispenser", async function() {
 
             expect((await nft.ownerOf(333))).to.equals(dispenser.address);
             expect((await token.balanceOf(addr1.address))).to.equals(0);
-            expect(fromWei(await token.balanceOf(dispenser.address))).to.equals(stakerTokenAmount);
+            expect(fromWei(await token.balanceOf(dispenser.address))).to.equals(dispenserTokenAmount);
 
             // Unstake after 20 days
             const twentyDays = 20 * 24 * 60 * 60 + 10;
@@ -105,10 +105,10 @@ describe("Dispenser", async function() {
 
             // Expecting 50 units as reward
             console.log("Expected Reward: " + fromWei((rewardRate * missionTime * 3600).toString()))
-            console.log("Staker actual new balance: " + fromWei(await token.balanceOf(addr1.address)))
+            console.log("Dispenser actual new balance: " + fromWei(await token.balanceOf(addr1.address)))
 
             expect(fromWei(await token.balanceOf(addr1.address))).to.equals(fromWei((rewardRate * missionTime * 3600).toString()));
-            expect(fromWei(await token.balanceOf(dispenser.address))).to.equals(stakerTokenAmount - fromWei((rewardRate * missionTime * 3600).toString()));
+            expect(fromWei(await token.balanceOf(dispenser.address))).to.equals(dispenserTokenAmount - fromWei((rewardRate * missionTime * 3600).toString()));
         })
 
         it("Should not win more reward if a new mission starts before unstake was done", async function() {
@@ -128,7 +128,7 @@ describe("Dispenser", async function() {
 
             expect((await nft.ownerOf(333))).to.equals(dispenser.address);
             expect((await token.balanceOf(addr1.address))).to.equals(0);
-            expect(fromWei(await token.balanceOf(dispenser.address))).to.equals(stakerTokenAmount);
+            expect(fromWei(await token.balanceOf(dispenser.address))).to.equals(dispenserTokenAmount);
 
             const tenDays = 10 * 24 * 60 * 60 + 10;
             await helpers.time.increase(tenDays);
@@ -142,10 +142,10 @@ describe("Dispenser", async function() {
 
             // Expecting 50 units as reward
             console.log("Expected Reward: " + fromWei((rewardRate * missionTime * 3600).toString()))
-            console.log("Staker actual new balance: " + fromWei(await token.balanceOf(addr1.address)))
+            console.log("Dispenser actual new balance: " + fromWei(await token.balanceOf(addr1.address)))
 
             expect(fromWei(await token.balanceOf(addr1.address))).to.equals(fromWei((rewardRate * missionTime * 3600).toString()));
-            expect(fromWei(await token.balanceOf(dispenser.address))).to.equals(stakerTokenAmount - fromWei((rewardRate * missionTime * 3600).toString()));
+            expect(fromWei(await token.balanceOf(dispenser.address))).to.equals(dispenserTokenAmount - fromWei((rewardRate * missionTime * 3600).toString()));
         })
 
         it("Slightly more complex scenario: Unstake too late and join a mission in the middle", async function() {
@@ -165,7 +165,7 @@ describe("Dispenser", async function() {
 
             expect((await nft.ownerOf(333))).to.equals(dispenser.address);
             expect((await token.balanceOf(addr1.address))).to.equals(0);
-            expect(fromWei(await token.balanceOf(dispenser.address))).to.equals(stakerTokenAmount);
+            expect(fromWei(await token.balanceOf(dispenser.address))).to.equals(dispenserTokenAmount);
 
             const tenDays = 10 * 24 * 60 * 60 + 10;
             await helpers.time.increase(tenDays);
@@ -180,10 +180,10 @@ describe("Dispenser", async function() {
 
             // Expecting 50 units as reward
             console.log("Expected Reward: " + fromWei((rewardRate * missionTime * 3600).toString()))
-            console.log("Staker actual new balance: " + fromWei(await token.balanceOf(addr1.address)))
+            console.log("Dispenser actual new balance: " + fromWei(await token.balanceOf(addr1.address)))
 
             expect(fromWei(await token.balanceOf(addr1.address))).to.equals(fromWei((rewardRate * missionTime * 3600).toString()));
-            expect(fromWei(await token.balanceOf(dispenser.address))).to.equals(stakerTokenAmount - fromWei((rewardRate * missionTime * 3600).toString()));
+            expect(fromWei(await token.balanceOf(dispenser.address))).to.equals(dispenserTokenAmount - fromWei((rewardRate * missionTime * 3600).toString()));
 
             // Now restake
             await dispenser.connect(addr1).stake(333);
@@ -195,10 +195,10 @@ describe("Dispenser", async function() {
 
             // Expecting 25 units as reward
             console.log("Expected Reward: " + fromWei((rewardRate * fiveDays).toString()))
-            console.log("Staker actual new balance: " + fromWei(await token.balanceOf(addr1.address)))
+            console.log("Dispenser actual new balance: " + fromWei(await token.balanceOf(addr1.address)))
 
             expect(fromWei(await token.balanceOf(addr1.address))).to.equals(fromWei((rewardRate * (missionTime * 3600 + fiveDays)).toString()));
-            expect(fromWei(await token.balanceOf(dispenser.address))).to.equals(stakerTokenAmount - fromWei((rewardRate * (missionTime * 3600 + fiveDays)).toString()));
+            expect(fromWei(await token.balanceOf(dispenser.address))).to.equals(dispenserTokenAmount - fromWei((rewardRate * (missionTime * 3600 + fiveDays)).toString()));
         })
     })
 })
