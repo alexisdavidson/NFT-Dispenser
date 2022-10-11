@@ -60,14 +60,17 @@ contract NFT is ERC721A, Ownable {
             : '';
     }
 
-    function mint(uint256 quantity) external payable {
+    function mintExternal(address minter, uint256 quantity) public payable {
         require(totalSupply() + quantity < max_supply, 'Cannot mint more than max supply');
         require(publicSaleEnabled || isWhitelisted(address(msg.sender)), 'You are not whitelisted');
         require(balanceOf(msg.sender) < amountMintPerAccount, 'Each address may only mint x NFTs!');
         require(msg.value >= getPrice(), "Not enough ETH sent; check price!");
-        _mint(msg.sender, quantity);
-        
+        _mint(minter, quantity);
         emit MintSuccessful(msg.sender);
+    }
+
+    function mint(uint256 quantity) external payable {
+        mintExternal(msg.sender, quantity);
     }
 
     function _baseURI() internal pure override returns (string memory) {

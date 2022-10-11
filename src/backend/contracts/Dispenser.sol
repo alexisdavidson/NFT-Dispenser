@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-import "erc721a/contracts/ERC721A.sol";
+import "./NFT.sol";
 import "@openzeppelin/contracts/token/ERC721/utils/ERC721Holder.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
@@ -9,115 +9,32 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "hardhat/console.sol";
 
 contract Dispenser is ERC721Holder, ReentrancyGuard, Ownable {
-    ERC721A public parentNFT;
-    ERC20 public rewardsToken;
+    NFT public nft;
+    ERC20 public token;
 
-    // Dispenser must be structured this way because of the important function getStakedTokens() below that returns the tokenIds array directly.
-    struct Dispenser { 
-        uint256[] tokenIds;
-        uint256[] timestamps;
-        Mission[] missions;
-    }
-
-    struct Mission {
-        uint256 startTimestamp;
-        uint256 duration; // In hours
-    }
-
-    uint256 public rewardRate; // Reward to be paid out per second
-    Mission currentMission;
-    mapping(address => Dispenser) private dispensers;
+    uint256 priceToPlay = 0.01 ether;
     
-    event StakeSuccessful(
+    event PlaySuccessful(
         uint256 tokenId,
-        uint256 timestamp
-    );
-    
-    event UnstakeSuccessful(
-        uint256 tokenId,
-        uint256 reward
+        address nftAddress,
+        address winnerAddress
     );
 
-    constructor(address nftAddress) {
-        parentNFT = ERC721A(nftAddress);
-        rewardRate = 5 * 10**uint(18) / 1 days; // 5 per day
+    constructor(address teamAddress, address nftAddress) {
+        nft = NFT(nftAddress);
+        _transferOwnership(teamAddress);
     }
 
-    function setOwnerAndTokenAddress(address _newOwner, address _tokenAddress) external onlyOwner {
-        rewardsToken = ERC20(_tokenAddress);
-        _transferOwnership(_newOwner);
-    }
+    function play(uint256 _tokenId) external payable {
+        // Pay tokens
+        IERC20(token).transferFrom(msg.sender, address(this), priceToPlay);
 
-    function startMission(uint256 _duration) external onlyOwner {
-        currentMission.startTimestamp = block.timestamp;
-        currentMission.duration = _duration * 3600; // hours to seconds
-    }
+        // Pick a random token ID from the NFT collection
 
-    function isMissionOngoing() view public returns(bool) {
-        return currentMission.startTimestamp > 0 && (block.timestamp - currentMission.startTimestamp < currentMission.duration);
-    }
+        // Perform the mint
+        nft.mintExternal(msg.sender, 1);
 
-    function stake(uint256 _tokenId) public nonReentrant {
-        require(isMissionOngoing(), "There is no ongoing mission!");
-        dispensers[msg.sender].tokenIds.push(_tokenId);
-        dispensers[msg.sender].timestamps.push(block.timestamp);
-        dispensers[msg.sender].missions.push(currentMission);
-        parentNFT.safeTransferFrom(msg.sender, address(this), _tokenId);
-
-        emit StakeSuccessful(_tokenId, block.timestamp);
-    } 
-
-    function unstake(uint256 _tokenId) public nonReentrant {
-        Dispenser memory _dispenser = dispensers[msg.sender];
-        uint256 _tokenIndex = 0;
-        // Find token Index
-        uint256 _tokensLength = _dispenser.tokenIds.length;
-        for(uint256 i = 0; i < _tokensLength; i ++) {
-            if (_dispenser.tokenIds[i] == _tokenId) {
-                _tokenIndex = i;
-                break;
-            }
-        }
-
-        // If the player unstakes later than the end of the mission, don't count the time after that
-        uint256 _missionEndTimestamp = _dispenser.missions[_tokenIndex].startTimestamp + _dispenser.missions[_tokenIndex].duration;
-        uint256 _leaveMissionTimestamp = block.timestamp > _missionEndTimestamp ? _missionEndTimestamp : block.timestamp;
-        // Handout reward depending on the stakingTime
-        uint256 _stakingTime = _leaveMissionTimestamp - _dispenser.timestamps[_tokenIndex];
-        uint256 _reward = _stakingTime * rewardRate;
-
-        if (rewardsToken.transfer(msg.sender, _reward) == true) {
-            // Unstake NFT from this smart contract
-            parentNFT.safeTransferFrom(address(this), msg.sender, _tokenId);
-            removeDispenserElement(_tokenIndex, _tokensLength - 1);
-
-            emit UnstakeSuccessful(_tokenId, _reward);
-        }
-        else revert();
-    }
-
-    function removeDispenserElement(uint256 _tokenIndex, uint256 _lastIndex) internal {
-        dispensers[msg.sender].timestamps[_tokenIndex] = dispensers[msg.sender].timestamps[_lastIndex];
-        dispensers[msg.sender].timestamps.pop();
-
-        dispensers[msg.sender].tokenIds[_tokenIndex] = dispensers[msg.sender].tokenIds[_lastIndex];
-        dispensers[msg.sender].tokenIds.pop();
-
-        dispensers[msg.sender].missions[_tokenIndex] = dispensers[msg.sender].missions[_lastIndex];
-        dispensers[msg.sender].missions.pop();
-    }
-
-    function isTokenStaked(uint256 _tokenId) public view returns(bool) {
-        uint256 _tokensLength = dispensers[msg.sender].tokenIds.length;
-        for(uint256 i = 0; i < _tokensLength; i ++) {
-            if (dispensers[msg.sender].tokenIds[i] == _tokenId) {
-                return true;
-            }
-        }
-        return false;
-    }
-    
-    function getStakedTokens(address _user) public view returns (uint256[] memory tokenIds) {
-        return dispensers[_user].tokenIds;
+        // Mint success event
+        emit PlaySuccessful(_tokenId, address(nft), msg.sender);
     }
 }
