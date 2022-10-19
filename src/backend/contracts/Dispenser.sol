@@ -32,7 +32,7 @@ contract Dispenser is ERC721Holder, ReentrancyGuard, Ownable {
         // Pick a random token ID from the NFT collection
 
         // Perform the mint
-        nft.mintExternal(msg.sender, 1);
+        nft.mint();
 
         // Mint success event
         emit PlaySuccessful(_tokenId, address(nft), msg.sender);

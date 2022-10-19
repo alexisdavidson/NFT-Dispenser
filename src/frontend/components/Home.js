@@ -5,13 +5,7 @@ import configContract from './configContract';
 
 const Home = ({ account, nft, token, dispenser }) => {
     const [loading, setLoading] = useState(true)
-    const [mintQuantity, setMintQuantity] = useState(1)
-    const [stakeId, setStakeId] = useState(null)
-    const [unstakeId, setUnstakeId] = useState(null)
     const [balance, setBalance] = useState("0")
-    const [nftBalance, setNftBalance] = useState("0")
-    const [isWhitelisted, setIsWhitelisted] = useState(false)
-    const [items, setItems] = useState([])
 
     const loadBalance = async () => {
         console.log("Current user account: " + account)
@@ -27,14 +21,8 @@ const Home = ({ account, nft, token, dispenser }) => {
         loadBalance()
     }, [])
 
-    if (loading) return (
-        <main style={{ padding: "1rem 0" }}>
-        <h2>Loading...</h2>
-        </main>
-    )
-
     return (
-        <div className="flex justify-center">
+        <div className="flex justify-center" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh'}}>
             <div className="px-5 container">
                 <p>Token Balance: {balance != null ? balance : "null"}</p>
             </div>

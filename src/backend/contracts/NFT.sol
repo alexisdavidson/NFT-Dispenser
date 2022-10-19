@@ -11,7 +11,7 @@ import "@chainlink/contracts/src/v0.8/VRFConsumerBaseV2.sol";
 contract NFT is ERC721URIStorage, Ownable, VRFConsumerBaseV2 {
     string public baseUri = "ipfs://QmNPi93oynwoi7NmHmW7ABTgpMfaQtmxKJoxmpXsJHNgGK/";
     string public constant uriSuffix = '.json';
-    uint256 public immutable max_supply = 5000;
+    uint256 public max_supply = 5000;
     uint256 public amountMintPerAccount = 0; // 0 for unlimited
     uint256 public price;
     uint256[] private availableTokens;
@@ -39,6 +39,9 @@ contract NFT is ERC721URIStorage, Ownable, VRFConsumerBaseV2 {
         s_subscriptionId = subscriptionId;
 
         _transferOwnership(ownerAddress);
+    }
+
+    function initializeArrays() external onlyOwner {
         for(uint i = 1; i <= max_supply; i++) {
             availableTokens.push(i);
             redeemedTokens.push(address(0));
@@ -83,6 +86,10 @@ contract NFT is ERC721URIStorage, Ownable, VRFConsumerBaseV2 {
 
     function _baseURI() internal view override returns (string memory) {
         return baseUri;
+    }
+
+    function contractURI() public pure returns (string memory) {
+        return "ipfs://QmaYebK3zEfHpfAmvRDvHB5b7MmgRYSecBY69pYfPcat22/";
     }
 
     function getPrice() view public returns(uint) {

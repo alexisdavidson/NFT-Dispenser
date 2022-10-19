@@ -52,18 +52,11 @@ function App() {
     <BrowserRouter>
       <div className="App">
         <Navigation web3Handler={web3Handler} account={account} />
-        { loading ? (
-          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh'}}>
-            <Spinner animation="border" style={{ display: 'flex' }} />
-            <p className='mx-3 my-0'>Awaiting MetaMask Connection...</p>
-          </div>
-        ) : (
-          <Routes>
-            <Route path="/" element={
-              <Home account={account} nft={nft} token={token} dispenser={dispenser} />
-            } />
-          </Routes>
-        ) }
+        <Routes>
+          <Route path="/" element={
+            <Home account={account} nft={nft} token={token} dispenser={dispenser} />
+          } />
+        </Routes>
       </div>
     </BrowserRouter>
   );

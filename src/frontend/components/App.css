@@ -1,38 +1,30 @@
+@font-face {
+  font-family: myFirstFont;
+  src: url("./assets/JandaManateeSolid.ttf");
+}
+
 .App {
   text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  background-image: url("./assets/bg.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: auto;
+  height: '100vh';
+  font-family: myFirstFont;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.connectButton {
+  background-image: url("./assets/Group 20.png");
+  width: 254px;
+  height: 104px;
+  background-size: cover;
+  margin: auto;
+  padding: auto;
+  font-size: 48px;
+  display: flex;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.connectButton p {
+  margin: auto;
 }
