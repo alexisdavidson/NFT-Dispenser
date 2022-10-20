@@ -33,8 +33,6 @@ a:link, a:visited, a:hover, a:active {
 
 .WarningMessage {
   text-align: center;
-  width: '100vh';
-  height: '100vh';
   background-size: cover;
   margin-top: 100px;
 }
@@ -44,8 +42,8 @@ a:link, a:visited, a:hover, a:active {
   background-image: url("./assets/bg.png");
   background-repeat: no-repeat;
   background-size: cover;
-  width: '100vh';
-  height: '100vh';
+  width: auto;
+  height: 100vh;
   font-family: myFirstFont;
   color: white;
 }
