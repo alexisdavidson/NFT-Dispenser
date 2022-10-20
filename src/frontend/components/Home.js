@@ -155,65 +155,47 @@ const Home = ({ web3Handler, account, nft, token }) => {
                     </Row>
                     <Button className="frameCloseButton" onClick={handleClose}></Button>
                 </Row>
-            ) : (
-                <></>
-            )}
-            
+            ) : ( <></> )}
 
-            {/* Modals */}
+            {showPrize ? (
+                <Row className="popupFrame m-0 p-0 container-fluid" >
+                    <Row className="splashScreen my-3 p-5 container-fluid" style={{ fontSize: "4vh"}} >
+                        <Row className="mx-auto mt-4">
+                            <h2 className="mt-4" style={{ fontSize: "5vh"}}>PRIZE</h2>
+                        </Row>
+                        <Row className="mx-auto mt-0 mb-4">
+                            <p className="mb-2">Consolation Prize = 1 Old Farm Man</p>
+                            <p className="my-2">Special Prize = 1 NFT Worth 1 $ETH</p>
+                            <p className="my-2">Grand Prize = 1 NFT Worth 5 $ETH</p>
+                            <p className="my-2">Ultimate Prize = ??????????</p>
+                        </Row>
+                    </Row>
+                    <Button className="frameCloseButton" onClick={handleClose}></Button>
+                </Row>
+            ) : ( <></> )}
 
-            <Modal show={showCrank} onHide={handleClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Crank</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>1 $PORK</Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Cancel
-                    </Button>
-                    <Button variant="primary" onClick={handleClose}>
-                        Crank
-                    </Button>
-                </Modal.Footer>
-            </Modal>
-
-            <Modal show={showPrize} onHide={handleClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Prize</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>Consolation Prize = 1 Old Farm Man</Modal.Body>
-                <Modal.Body>Special Prize = 1 NFT Worth 1 $ETH</Modal.Body>
-                <Modal.Body>Grand Prize = 1 NFT Worth 5 $ETH</Modal.Body>
-                <Modal.Body>Ultimate Prize = ??????????</Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Close
-                    </Button>
-                </Modal.Footer>
-            </Modal>
-
-            <Modal show={showRedeem} onHide={handleClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Redeem for?</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Form>
-                        <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                            <Form.Label>Token Id</Form.Label>
-                            <Form.Control onChange={updateRedeemTokenId.bind(this)} />
-                        </Form.Group>
-                    </Form>
-                </Modal.Body>
-                <Modal.Body>***Prize will be send to your wallet on 12PM UTC</Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Cancel
-                    </Button>
-                    <Button variant="primary" onClick={triggerRedeem}>
-                        Confirm
-                    </Button>
-                </Modal.Footer>
-            </Modal>
+            {showRedeem ? (
+                <Row className="popupFrame m-0 p-0 container-fluid" >
+                    <Row className="splashScreen my-3 p-5 container-fluid" style={{ fontSize: "4vh"}} >
+                        <Row className="mx-auto mt-4">
+                            <h2 className="mt-4" style={{ fontSize: "5vh"}}>REDEEM FOR?</h2>
+                        </Row>
+                        <Row className="mx-auto mt-0">
+                            <Form>
+                                <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+                                    <Form.Label>TOKEN ID</Form.Label>
+                                    <Form.Control onChange={updateRedeemTokenId.bind(this)} />
+                                </Form.Group>
+                            </Form>
+                            <a href="#">
+                                <div class="pinkButton" onClick={triggerRedeem} ><p>CONFIRM</p></div>
+                            </a>
+                            <p className="mt-1" style={{ fontSize: "3vh"}}>***Prize will be send to your wallet on 12PM UTC</p>
+                        </Row>
+                    </Row>
+                    <Button className="frameCloseButton" onClick={handleClose}></Button>
+                </Row>
+            ) : ( <></> )}
         </div>
     );
 }
