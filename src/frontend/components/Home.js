@@ -7,74 +7,109 @@ import dispenserActivate from './assets/Activate.gif'
 import logo from './assets/PorkersLogo.png'
 import info from './assets/info_button01.png'
 
+const fromWei = (num) => ethers.utils.formatEther(num)
+const toWei = (num) => ethers.utils.parseEther(num.toString())
+
 const Home = ({ web3Handler, account, nft, token }) => {
-    const [loading, setLoading] = useState(true)
-    const [balance, setBalance] = useState("0")
+    const [playing, setPlaying] = useState(false)
 
     const infoPopup = () => {
         console.log("infoPopup")
     }
 
-    const loadBalance = async () => {
-        console.log("Current user account: " + account)
-        setBalance((await token.balanceOf(account)).toString())
-        setLoading(false)
+    const prizePopup = () => {
+        console.log("prizePopup")
     }
 
-    const play = async () => {
+    const getPork = () => {
+        console.log("getPork")
+        // link to uniswap
+    }
+
+    const redeemPopup = () => {
+        console.log("redeemPopup")
+    }
+
+    const crank = async () => {
+        if (account == null) {
+            web3Handler();
+            return;
+        }
+
+        setPlaying(true)
         console.log("play")
-        let price = await nft.getPrice()
-        await(await nft.mint(price)).wait()
+
+        let price = fromWei(await nft.getPrice())
+        console.log("price is : " + price)
+        await(await nft.mint()).wait()
+        setPlaying(false)
       }
 
     useEffect(() => {
-        loadBalance()
     }, [])
 
     return (
         // <div className="flex justify-center" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh'}}>
         <div className="p-0 container-fluid">
             <Row className="p-0 m-0">
-                <Col className="p-0 ms-5 my-4 col-3" style={{backgroundColor: "rgb(1,1,1,0.0)"}}>
+                <Col className="ps-5 pe-0 mx-0 my-4 col-3" style={{backgroundColor: "rgb(1,1,1,0.0)"}}>
                     <Row>
                         <img src={logo} alt="" />
                     </Row>
                     <Row style={{marginTop: "150px"}}>
-                        <div class="roseButton my-3"><p>CRANK</p></div>
+                        <a href="#">
+                            <div class="roseButton my-3" onClick={crank} ><p>CRANK</p></div>
+                        </a>
                     </Row>
                     <Row className="m-0 p-0">
-                        <div class="pinkButton my-3"><p>REDEEM</p></div>
+                        <a href="#">
+                            <div class="pinkButton my-3" onClick={redeemPopup} ><p>REDEEM</p></div>
+                        </a>
                     </Row>
                     <Row>
                         <p style={{ fontSize: "25px"}} >HISTORY/WINNING</p>
                     </Row>
                 </Col>
-                <Col className="m-0 mb-4 col-12 col-lg-6 col-xl-6" style={{backgroundColor: "rgb(1,1,1,0.0)"}}>
-                    <img src={dispenserIdle} onClick={() => play()}/>
+                <Col className="m-0 mb-4 px-0 col-12 col-lg-6 col-xl-6" style={{backgroundColor: "rgb(1,1,1,0.0)"}}>
+                    {!playing ? (
+                        <img src={dispenserIdle} />
+                    ) : (
+                        <img src={dispenserActivate} />
+                    )}
                 </Col>
                 <Col className="mx-auto my-4 col-2" style={{backgroundColor: "rgb(1,1,1,0.0)"}}>
                     <Row>
-                        {account ? (
-                            <div class="roseButton"><p>{account.slice(0, 6)}...</p></div>
-                        ) : (
-                            <div class="roseButton" onClick={web3Handler}><p>CONNECT</p></div>
-                        )}
+                        <a href="#">
+                            {account ? (
+                                <div class="roseButton"><p>{account.slice(0, 6)}...</p></div>
+                            ) : (
+                                <div class="roseButton" onClick={web3Handler}><p>CONNECT</p></div>
+                            )}
+                        </a>
                     </Row>
                     <Row style={{marginTop: "150px"}}>
-                        <div class="purpleButton my-3"><p>PRIZE</p></div>
+                        <a href="#">
+                            <div class="purpleButton my-3" onClick={prizePopup} ><p>PRIZE</p></div>
+                        </a>
                     </Row>
                     <Row>
-                        <div class="purpleButton my-3" style={{ fontSize: "38px"}} ><p>GET $PORK</p></div>
+                        <a href="https://app.uniswap.org/#/swap" target="_blank">
+                            <div class="purpleButton my-3" style={{ fontSize: "38px"}} >
+                                <p>GET $PORK</p>
+                            </div>
+                        </a>
                     </Row>
                     <Row>
                         <div class="grayButton my-3" style={{ fontSize: "38px"}} ><p>$PORK NFT</p></div>
                     </Row>
                     <Row>
-                        <p>EXCHANGE SOON</p>
+                        <p style={{ fontSize: "25px"}}>EXCHANGE SOON</p>
                     </Row>
                 </Col>
                 <Col className="mx-auto my-4 col-1">
-                    <img class="" src={info} onClick={infoPopup} />
+                    <a href="#">
+                        <img class="" src={info} onClick={infoPopup} />
+                    </a>
                 </Col>
             </Row>
         </div>
