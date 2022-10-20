@@ -140,22 +140,27 @@ const Home = ({ web3Handler, account, nft, token }) => {
                 </Col>
             </Row>
 
+            {/* Popup frames */}
+            {showInfo ? (
+                <Row className="popupFrame m-0 p-0 container-fluid" >
+                    <Row className="splashScreen my-3 p-5 container-fluid" style={{ fontSize: "4vh"}} >
+                        <Row className="mx-auto mt-4">
+                            <h2 className="mt-4" style={{ fontSize: "5vh"}}>INFO</h2>
+                        </Row>
+                        <Row className="mx-auto mt-0 mb-4">
+                            <p className="mb-2">1 'NFT Winner' Trait = Special Prize</p>
+                            <p className="my-2">2 'NFT Winner' Trait = Grand Prize</p>
+                            <p className="my-2">3 'NFT Winner' Trait = Ultimate Prize</p>
+                        </Row>
+                    </Row>
+                    <Button className="frameCloseButton" onClick={handleClose}></Button>
+                </Row>
+            ) : (
+                <></>
+            )}
+            
 
             {/* Modals */}
-
-            <Modal show={showInfo} onHide={handleClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Info</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>1 'NFT Winner' Trait = Special Prize</Modal.Body>
-                <Modal.Body>2 'NFT Winner' Trait = Grand Prize</Modal.Body>
-                <Modal.Body>3 'NFT Winner' Trait = Ultimate Prize</Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Close
-                    </Button>
-                </Modal.Footer>
-            </Modal>
 
             <Modal show={showCrank} onHide={handleClose}>
                 <Modal.Header closeButton>
