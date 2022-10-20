@@ -13,11 +13,13 @@ contract NFT is ERC721URIStorage, Ownable, VRFConsumerBaseV2 {
     ERC20 public token;
     string public baseUri = "ipfs://QmNPi93oynwoi7NmHmW7ABTgpMfaQtmxKJoxmpXsJHNgGK/";
     string public constant uriSuffix = '.json';
-    uint256 public max_supply = 5000;
+    uint16 public max_supply = 5000;
     uint256 public amountMintPerAccount = 0; // 0 for unlimited
     uint256 public price = 1 ether; // 1 $PORK to play
-    uint256[] private availableTokens;
+
+    uint16[] private availableTokens;
     address[] private redeemedTokens;
+    uint16 private tokensInitializedCount;
     
     //VRF Chainlink **************************************************************************************
     uint64 s_subscriptionId;
@@ -44,16 +46,23 @@ contract NFT is ERC721URIStorage, Ownable, VRFConsumerBaseV2 {
         s_subscriptionId = subscriptionId;
 
         _transferOwnership(ownerAddress);
+
+        availableTokens = new uint16[](max_supply);
+        redeemedTokens = new address[](max_supply);
     }
 
-    function expendArraysBySize(uint256 _bySize) external onlyOwner {
-        uint256 _initialLength = availableTokens.length;
-        require(_initialLength + _bySize <= max_supply, "Cannot expend the arrays more than the max_supply");
+    function initializeTokens(uint16 _count) external onlyOwner {
+        uint16 _tokensInitializedCount = tokensInitializedCount;
+        require(_tokensInitializedCount + _count <= max_supply, "Cannot initialize more tokens than the max_supply");
         
-        for(uint i = 1; i <= _bySize; i++) {
-            availableTokens.push(_initialLength + i);
-            redeemedTokens.push(address(0));
+        _count += 1;
+        for (uint16 i = 1; i < _count;) {
+            uint16 _currentIndex = _tokensInitializedCount + i;
+            availableTokens[_currentIndex] = _currentIndex;
+            unchecked { ++i; }
         }
+
+        tokensInitializedCount += _count - 1;
     }
 
     function tokenURI(uint256 _tokenId) public view virtual override returns (string memory) {
@@ -161,5 +170,9 @@ contract NFT is ERC721URIStorage, Ownable, VRFConsumerBaseV2 {
 
     function getAvailableTokensCount() public view returns (uint256) {
         return availableTokens.length;
+    }
+
+    function getTokensInitializedCount() public view returns (uint16) {
+        return tokensInitializedCount;
     }
 }

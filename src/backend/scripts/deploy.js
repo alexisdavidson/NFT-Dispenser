@@ -28,8 +28,11 @@ async function main() {
   const NFT = await ethers.getContractFactory("NFT");
   const nft = await NFT.deploy(token.address, teamWallets[0], subscriptionId);
   console.log("NFT contract address", nft.address)
+
+  // await nft.initializeTokens();
+  // console.log("initializeTokens() called");
   
-  // saveFrontendFiles(nft, "NFT");
+  saveFrontendFiles(nft, "NFT");
 
   console.log("Frontend files saved")
 }
