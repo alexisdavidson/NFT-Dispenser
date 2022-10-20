@@ -15,7 +15,7 @@ contract NFT is ERC721URIStorage, Ownable, VRFConsumerBaseV2 {
     string public constant uriSuffix = '.json';
     uint256 public max_supply = 5000;
     uint256 public amountMintPerAccount = 0; // 0 for unlimited
-    uint256 public price;
+    uint256 public price = 1 ether; // 1 $PORK to play
     uint256[] private availableTokens;
     address[] private redeemedTokens;
     
