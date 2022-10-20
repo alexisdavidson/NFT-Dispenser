@@ -17,6 +17,7 @@ const Home = ({ web3Handler, account, nft, token }) => {
     const [showPrize, setShowPrize] = useState(false);
     const [showRedeem, setShowRedeem] = useState(false);
     const [showCrank, setShowCrank] = useState(false);
+    const [redeemTokenId, setRedeemTokenId] = useState(0);
   
     const handleClose = () => { 
         setShowInfo(false);
@@ -58,6 +59,17 @@ const Home = ({ web3Handler, account, nft, token }) => {
         // console.log("price is : " + price)
         await(await nft.mint()).wait()
         setPlaying(false)
+    }
+
+    const updateRedeemTokenId = event => {
+        console.log(event.target.value);
+        setRedeemTokenId(event.target.value);
+    }
+
+    const triggerRedeem = async () => {
+        handleClose()
+        console.log("Redeem token " + redeemTokenId)
+        await(await nft.redeemAndBurn(redeemTokenId)).wait()
     }
 
     useEffect(() => {
@@ -129,51 +141,74 @@ const Home = ({ web3Handler, account, nft, token }) => {
             </Row>
 
 
-        {/* Modals */}
+            {/* Modals */}
 
-        <Modal show={showInfo} onHide={handleClose}>
-            <Modal.Header closeButton>
-                <Modal.Title>Info</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>1 'NFT Winner' Trait = Special Prize</Modal.Body>
-            <Modal.Body>2 'NFT Winner' Trait = Grand Prize</Modal.Body>
-            <Modal.Body>3 'NFT Winner' Trait = Ultimate Prize</Modal.Body>
-            <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}>
-                    Close
-                </Button>
-            </Modal.Footer>
-        </Modal>
+            <Modal show={showInfo} onHide={handleClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Info</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>1 'NFT Winner' Trait = Special Prize</Modal.Body>
+                <Modal.Body>2 'NFT Winner' Trait = Grand Prize</Modal.Body>
+                <Modal.Body>3 'NFT Winner' Trait = Ultimate Prize</Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Close
+                    </Button>
+                </Modal.Footer>
+            </Modal>
 
-        <Modal show={showCrank} onHide={handleClose}>
-            <Modal.Header closeButton>
-                <Modal.Title>Crank</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>1 $PORK</Modal.Body>
-            <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}>
-                    Cancel
-                </Button>
-                <Button variant="primary" onClick={handleClose}>
-                    Crank
-                </Button>
-            </Modal.Footer>
-        </Modal>
+            <Modal show={showCrank} onHide={handleClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Crank</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>1 $PORK</Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Cancel
+                    </Button>
+                    <Button variant="primary" onClick={handleClose}>
+                        Crank
+                    </Button>
+                </Modal.Footer>
+            </Modal>
 
-        <Modal show={showPrize} onHide={handleClose}>
-            <Modal.Header closeButton>
-                <Modal.Title>Prize</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>Consolation Prize = 1 Old Farm Man</Modal.Body>
-            <Modal.Body>Special Prize = 1 NFT Worth 1 $ETH</Modal.Body>
-            <Modal.Body>Grand Prize = 1 NFT Worth 5 $ETH</Modal.Body>
-            <Modal.Body>Ultimate Prize = ??????????</Modal.Body>
-            <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}>
-                    Close
-                </Button>
-            </Modal.Footer>
-        </Modal>
+            <Modal show={showPrize} onHide={handleClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Prize</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>Consolation Prize = 1 Old Farm Man</Modal.Body>
+                <Modal.Body>Special Prize = 1 NFT Worth 1 $ETH</Modal.Body>
+                <Modal.Body>Grand Prize = 1 NFT Worth 5 $ETH</Modal.Body>
+                <Modal.Body>Ultimate Prize = ??????????</Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Close
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+
+            <Modal show={showRedeem} onHide={handleClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Redeem for?</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form>
+                        <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+                            <Form.Label>Token Id</Form.Label>
+                            <Form.Control onChange={updateRedeemTokenId.bind(this)} />
+                        </Form.Group>
+                    </Form>
+                </Modal.Body>
+                <Modal.Body>***Prize will be send to your wallet on 12PM UTC</Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Cancel
+                    </Button>
+                    <Button variant="primary" onClick={triggerRedeem}>
+                        Confirm
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </div>
     );
 }
