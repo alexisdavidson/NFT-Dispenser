@@ -36,7 +36,7 @@ contract NFT is ERC721URIStorage, Ownable, VRFConsumerBaseV2 {
     event MintSuccessful(address user, uint256 tokenId);
     event Redeem(address user, uint256 tokenId);
 
-    constructor(address tokenAddress, address ownerAddress, uint64 subscriptionId) ERC721("PORK NFT", "PN") VRFConsumerBaseV2(vrfCoordinator) {
+    constructor(address tokenAddress, address ownerAddress, uint64 subscriptionId) ERC721("Old Farm Man", "PN") VRFConsumerBaseV2(vrfCoordinator) {
         token = ERC20(tokenAddress);
 
         // Initialize Chainlink Coordinator

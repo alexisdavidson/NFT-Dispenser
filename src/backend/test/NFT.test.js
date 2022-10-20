@@ -24,7 +24,7 @@ describe("NFT", async function() {
 
     describe("Deployment", function() {
         it("Should track name and symbol of the nft collection", async function() {
-            expect(await nft.name()).to.equal("PORK NFT")
+            expect(await nft.name()).to.equal("Old Farm Man")
             expect(await nft.symbol()).to.equal("PN")
         })
 
