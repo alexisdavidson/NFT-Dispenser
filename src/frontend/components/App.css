@@ -31,6 +31,10 @@ a:link, a:visited, a:hover, a:active {
   /* background-image: url("./assets/complete_window.png"); */
 }
 
+::-webkit-scrollbar {
+  display: none;
+}
+
 .WarningMessage {
   text-align: center;
   background-size: cover;

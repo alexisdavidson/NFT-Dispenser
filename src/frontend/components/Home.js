@@ -99,9 +99,9 @@ const Home = ({ web3Handler, account, nft, token }) => {
                 </Col>
                 <Col className="m-0 mb-4 px-0 col-12 col-lg-6 col-xl-6" style={{backgroundColor: "rgb(1,1,1,0.0)"}}>
                     {!playing ? (
-                        <img src={dispenserIdle} />
+                        <img src={dispenserIdle} width="100%" height="auto" />
                     ) : (
-                        <img src={dispenserActivate} />
+                        <img src={dispenserActivate} width="100%" height="auto" />
                     )}
                 </Col>
                 <Col className="mx-auto my-4 col-2" style={{backgroundColor: "rgb(1,1,1,0.0)"}}>
@@ -133,7 +133,7 @@ const Home = ({ web3Handler, account, nft, token }) => {
                         <p style={{ fontSize: "25px"}}>EXCHANGE SOON</p>
                     </Row>
                 </Col>
-                <Col className="mx-auto my-4 col-1">
+                <Col className="ms-auto me-0 my-4 col-1">
                     <a href="#">
                         <img class="" src={info} onClick={infoPopup} />
                     </a>
