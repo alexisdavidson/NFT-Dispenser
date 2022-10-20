@@ -46,10 +46,10 @@ function App() {
   return (
     <BrowserRouter>
       <div className="App">
-        <Navigation web3Handler={web3Handler} account={account} />
+        {/* <Navigation web3Handler={web3Handler} account={account} /> */}
         <Routes>
           <Route path="/" element={
-            <Home account={account} nft={nft} token={token} />
+            <Home web3Handler={web3Handler} account={account} nft={nft} token={token} />
           } />
         </Routes>
       </div>
