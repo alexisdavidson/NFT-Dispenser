@@ -15,6 +15,7 @@ import NFTAbi from '../contractsData/NFT.json'
 import NFTAddress from '../contractsData/NFT-address.json'
 import TokenAbi from '../contractsData/Token.json'
 import TokenAddress from '../contractsData/Token-address.json'
+import rotate from './assets/rotate.png'
 
 function App() {
   const [loading, setLoading] = useState(true)
@@ -53,9 +54,10 @@ function App() {
           } />
         </Routes>
       </div>
-      <div id="warning-message">
+      <div className="WarningMessage" id="warning-message">
         Please use landscape mode!
-    </div>
+        <img src={rotate}  className="center mt-5"/>
+      </div>
     </BrowserRouter>
   );
 }

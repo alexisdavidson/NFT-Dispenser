@@ -11,6 +11,13 @@
   #warning-message { display:none; }
 }
 
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+
 a:link, a:visited, a:hover, a:active {
   color: white;
   text-decoration: none;
@@ -18,6 +25,14 @@ a:link, a:visited, a:hover, a:active {
 
 .modal {
   /* background-image: url("./assets/complete_window.png"); */
+}
+
+.WarningMessage {
+  text-align: center;
+  width: '100vh';
+  height: '100vh';
+  background-size: cover;
+  margin-top: 100px;
 }
 
 .App {
