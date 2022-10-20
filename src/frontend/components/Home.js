@@ -18,6 +18,20 @@ const Home = ({ web3Handler, account, nft, token }) => {
     const [showRedeem, setShowRedeem] = useState(false);
     const [showCrank, setShowCrank] = useState(false);
     const [redeemTokenId, setRedeemTokenId] = useState(0);
+    
+
+    document.addEventListener("orientationchange", function(event){
+        switch(window.orientation) 
+        {  
+            case -90: case 90:
+                /* Device is in landscape mode */
+                console.log("landscape")
+                break; 
+            default:
+                /* Device is in portrait mode */
+                console.log("portrait")
+        }
+    });
   
     const handleClose = () => { 
         setShowInfo(false);

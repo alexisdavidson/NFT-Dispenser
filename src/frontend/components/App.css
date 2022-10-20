@@ -3,6 +3,14 @@
   src: url("./assets/JandaManateeSolid.ttf");
 }
 
+@media only screen and (orientation:portrait){
+  #wrapper { display:none; }
+  #warning-message { display:block; }
+}
+@media only screen and (orientation:landscape){
+  #warning-message { display:none; }
+}
+
 a:link, a:visited, a:hover, a:active {
   color: white;
   text-decoration: none;

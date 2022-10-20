@@ -45,7 +45,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div className="App">
+      <div className="App" id="wrapper">
         {/* <Navigation web3Handler={web3Handler} account={account} /> */}
         <Routes>
           <Route path="/" element={
@@ -53,6 +53,9 @@ function App() {
           } />
         </Routes>
       </div>
+      <div id="warning-message">
+        Please use landscape mode!
+    </div>
     </BrowserRouter>
   );
 }
