@@ -14,7 +14,7 @@
   color: white;
 }
 
-.connectButton {
+.roseButton {
   background-image: url("./assets/Group 20.png");
   width: 254px;
   height: 104px;
@@ -25,6 +25,51 @@
   display: flex;
 }
 
-.connectButton p {
+.roseButton p {
+  margin: auto;
+}
+
+.pinkButton {
+  background-image: url("./assets/Group 26.png");
+  width: 254px;
+  height: 104px;
+  background-size: cover;
+  margin: auto;
+  padding: auto;
+  font-size: 48px;
+  display: flex;
+}
+
+.pinkButton p {
+  margin: auto;
+}
+
+.purpleButton {
+  background-image: url("./assets/Group 22.png");
+  width: 254px;
+  height: 104px;
+  background-size: cover;
+  margin: auto;
+  padding: auto;
+  font-size: 48px;
+  display: flex;
+}
+
+.purpleButton p {
+  margin: auto;
+}
+
+.grayButton {
+  background-image: url("./assets/Group 24.png");
+  width: 254px;
+  height: 104px;
+  background-size: cover;
+  margin: auto;
+  padding: auto;
+  font-size: 48px;
+  display: flex;
+}
+
+.grayButton p {
   margin: auto;
 }

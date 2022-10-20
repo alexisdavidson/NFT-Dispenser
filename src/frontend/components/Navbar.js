@@ -4,9 +4,14 @@ import {
 
 import { Navbar, Nav, Button, Container } from 'react-bootstrap'
 import logo from './assets/PorkersLogo.png'
-import buttonConnect from './assets/Group 20.png' 
+import info from './assets/info_button01.png'
 
 const Navigation = ({ web3Handler, account }) => {
+
+    const infoPopup = () => {
+        console.log("infoPopup")
+    }
+
     return (
         <Navbar expand="lg" variant="dark">
             <Container>
@@ -19,19 +24,13 @@ const Navigation = ({ web3Handler, account }) => {
                     </Nav>
                     <Nav>
                         {account ? (
-                            <Nav.Link
-                                href={`https://etherscan.io/address/${account}`} 
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="button nav-button btn-sm mx-4">
-                                <Button variant="outline-light">
-                                    {account.slice(0, 5) + '...' + account.slice(38, 42)}
-                                </Button>
-
-                            </Nav.Link>
+                            <div class="roseButton mx-3"><p>{account.slice(0, 6)}...</p></div>
                         ) : (
-                            <div class="connectButton" onClick={web3Handler}><p>CONNECT</p></div>
+                            <div class="roseButton mx-3" onClick={web3Handler}><p>CONNECT</p></div>
                         )}
+                    </Nav>
+                    <Nav>
+                        <img class="mx-3" src={info} onClick={infoPopup} />
                     </Nav>
                 </Navbar.Collapse>
             </Container>
