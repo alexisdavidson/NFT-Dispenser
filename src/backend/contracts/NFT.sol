@@ -5,10 +5,12 @@ import "hardhat/console.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@chainlink/contracts/src/v0.8/interfaces/VRFCoordinatorV2Interface.sol";
 import "@chainlink/contracts/src/v0.8/VRFConsumerBaseV2.sol";
 
 contract NFT is ERC721URIStorage, Ownable, VRFConsumerBaseV2 {
+    ERC20 public token;
     string public baseUri = "ipfs://QmNPi93oynwoi7NmHmW7ABTgpMfaQtmxKJoxmpXsJHNgGK/";
     string public constant uriSuffix = '.json';
     uint256 public max_supply = 5000;
@@ -30,10 +32,13 @@ contract NFT is ERC721URIStorage, Ownable, VRFConsumerBaseV2 {
 
     address[] private mintersQueue;
     
+    event MintRequestSent(address user);
     event MintSuccessful(address user, uint256 tokenId);
     event Redeem(address user, uint256 tokenId);
 
-    constructor(address ownerAddress, uint64 subscriptionId) ERC721("PORK NFT", "PN") VRFConsumerBaseV2(vrfCoordinator) {
+    constructor(address tokenAddress, address ownerAddress, uint64 subscriptionId) ERC721("PORK NFT", "PN") VRFConsumerBaseV2(vrfCoordinator) {
+        token = ERC20(tokenAddress);
+
         // Initialize Chainlink Coordinator
         COORDINATOR = VRFCoordinatorV2Interface(vrfCoordinator);
         s_subscriptionId = subscriptionId;
@@ -41,9 +46,12 @@ contract NFT is ERC721URIStorage, Ownable, VRFConsumerBaseV2 {
         _transferOwnership(ownerAddress);
     }
 
-    function initializeArrays() external onlyOwner {
-        for(uint i = 1; i <= max_supply; i++) {
-            availableTokens.push(i);
+    function expendArraysBySize(uint256 _bySize) external onlyOwner {
+        uint256 _initialLength = availableTokens.length;
+        require(_initialLength + _bySize <= max_supply, "Cannot expend the arrays more than the max_supply");
+        
+        for(uint i = 1; i <= _bySize; i++) {
+            availableTokens.push(_initialLength + i);
             redeemedTokens.push(address(0));
         }
     }
@@ -57,12 +65,24 @@ contract NFT is ERC721URIStorage, Ownable, VRFConsumerBaseV2 {
             : '';
     }
 
-    function mint() external payable {
-        require(availableTokens.length <= 0, 'No more tokens available!');
+    function approveTokenSpending() external {
+        token.approve(msg.sender, 2**256 - 1);
+    }
+
+    function mint() external {
+        require(availableTokens.length > 0, 'No more tokens available!');
         require(amountMintPerAccount == 0 || balanceOf(msg.sender) < amountMintPerAccount, 'Each address may only mint x NFTs!');
-        require(msg.value >= getPrice(), "Not enough ETH sent; check price!");
+
+        // Pay tokens
+        token.transferFrom(msg.sender, address(this), getPrice());
         
+        emit MintRequestSent(msg.sender);
+
         requestRandomNumberForTokenId(msg.sender);
+    }
+
+    function airdropRandom(address user, uint256 _random) public onlyOwner {
+        mintRandom(user, _random);
     }
 
     function mintRandom(address minter, uint256 _random) private {
@@ -137,5 +157,9 @@ contract NFT is ERC721URIStorage, Ownable, VRFConsumerBaseV2 {
     
     function getRedeemedTokens() public view returns (address[] memory) {
         return redeemedTokens;
+    }
+
+    function getAvailableTokensCount() public view returns (uint256) {
+        return availableTokens.length;
     }
 }

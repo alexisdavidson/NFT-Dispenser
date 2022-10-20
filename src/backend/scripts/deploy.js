@@ -13,7 +13,7 @@ async function main() {
   // Fill with correct data and uncomment the correct network before deploy!
   // const teamWallet = "0x3c44cdddb6a900fa2b585dd299e03d12fa4293bc"; // localhost
   // const teamWallet = "0xA8095a8AB93D7cad255248D1D685D4a9F9eF2621"; // rinkeby
-  const teamWallet = "0xA8095a8AB93D7cad255248D1D685D4a9F9eF2621"; // goerli
+  const teamWallet = "0xD71E736a7eF7a9564528D41c5c656c46c18a2AEd"; // goerli
   // const teamWallet = "0x61603b8A09C2Aa8f663B43c22C9ceBeC00FC6FeC"; // mainnet
   
   // Fill with correct data and uncomment the correct network before deploy!
@@ -26,21 +26,15 @@ async function main() {
 
   const NFT = await ethers.getContractFactory("NFT");
   // const Token = await ethers.getContractFactory("Token");
-  // const Dispenser = await ethers.getContractFactory("Dispenser");
   const nft = await NFT.deploy(teamWallet, subscriptionId);
   console.log("NFT contract address", nft.address)
-  await nft.initializeArrays();
-  console.log("initializeArrays done")
-  // const dispenser = await Dispenser.deploy(nft.address);
-  // console.log("Dispenser contract address", dispenser.address)
-  // const token = await Token.deploy([dispenser.address, teamWallet], [73000000, 149000000]);
+  // await nft.initializeArrays();
+  // console.log("initializeArrays done")
+  // const token = await Token.deploy();
   // console.log("Token contract address", token.address)
-  // await dispenser.setOwnerAndTokenAddress(teamWallet, token.address);
-  // console.log("setOwnerAndTokenAddress call done")
   
   saveFrontendFiles(nft, "NFT");
   // saveFrontendFiles(token, "Token");
-  // saveFrontendFiles(dispenser, "Dispenser");
 
   console.log("Frontend files saved")
 }

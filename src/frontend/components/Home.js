@@ -3,7 +3,7 @@ import { ethers } from "ethers"
 import { Row, Col, Card, Button, Form, InputGroup } from 'react-bootstrap'
 import configContract from './configContract';
 
-const Home = ({ account, nft, token, dispenser }) => {
+const Home = ({ account, nft, token }) => {
     const [loading, setLoading] = useState(true)
     const [balance, setBalance] = useState("0")
 
@@ -14,7 +14,8 @@ const Home = ({ account, nft, token, dispenser }) => {
     }
 
     const play = async () => {
-        await(await dispenser.play()).wait()
+        let price = await nft.getPrice()
+        await(await nft.mint(price)).wait()
       }
 
     useEffect(() => {

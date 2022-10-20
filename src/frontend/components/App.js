@@ -15,15 +15,12 @@ import NFTAbi from '../contractsData/NFT.json'
 import NFTAddress from '../contractsData/NFT-address.json'
 import TokenAbi from '../contractsData/Token.json'
 import TokenAddress from '../contractsData/Token-address.json'
-import DispenserAbi from '../contractsData/Dispenser.json'
-import DispenserAddress from '../contractsData/Dispenser-address.json'
 
 function App() {
   const [loading, setLoading] = useState(true)
   const [account, setAccount] = useState(null)
   const [nft, setNFT] = useState({})
   const [token, setToken] = useState({})
-  const [dispenser, setDispenser] = useState({})
 
   // MetaMask Login/Connect
   const web3Handler = async () => {
@@ -40,11 +37,9 @@ function App() {
   const loadContracts = async (signer) => {
     const nft = new ethers.Contract(NFTAddress.address, NFTAbi.abi, signer)
     const token = new ethers.Contract(TokenAddress.address, TokenAbi.abi, signer)
-    const dispenser = new ethers.Contract(DispenserAddress.address, DispenserAbi.abi, signer)
 
     setNFT(nft)
     setToken(token)
-    setDispenser(dispenser)
     setLoading(false)
   }
 
@@ -54,7 +49,7 @@ function App() {
         <Navigation web3Handler={web3Handler} account={account} />
         <Routes>
           <Route path="/" element={
-            <Home account={account} nft={nft} token={token} dispenser={dispenser} />
+            <Home account={account} nft={nft} token={token} />
           } />
         </Routes>
       </div>
