@@ -18,20 +18,6 @@ const Home = ({ web3Handler, account, nft, token }) => {
     const [showRedeem, setShowRedeem] = useState(false);
     const [showCrank, setShowCrank] = useState(false);
     const [redeemTokenId, setRedeemTokenId] = useState(0);
-    
-
-    document.addEventListener("orientationchange", function(event){
-        switch(window.orientation) 
-        {  
-            case -90: case 90:
-                /* Device is in landscape mode */
-                console.log("landscape")
-                break; 
-            default:
-                /* Device is in portrait mode */
-                console.log("portrait")
-        }
-    });
   
     const handleClose = () => { 
         setShowInfo(false);
@@ -91,7 +77,7 @@ const Home = ({ web3Handler, account, nft, token }) => {
 
     return (
         // <div className="flex justify-center" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh'}}>
-        <div className="p-0 container-fluid">
+        <div className="m-0 p-0 container-fluid">
             <Row className="p-0 m-0">
                 <Col className="ps-5 pe-0 mx-0 my-4 col-3" style={{backgroundColor: "rgb(1,1,1,0.0)"}}>
                     <Row>

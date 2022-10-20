@@ -11,6 +11,10 @@
   #warning-message { display:none; }
 }
 
+body {
+  height: 100vh;
+}
+
 .center {
   display: block;
   margin-left: auto;
@@ -40,7 +44,7 @@ a:link, a:visited, a:hover, a:active {
   background-image: url("./assets/bg.png");
   background-repeat: no-repeat;
   background-size: cover;
-  width: auto;
+  width: '100vh';
   height: '100vh';
   font-family: myFirstFont;
   color: white;
