@@ -8,6 +8,10 @@ a:link, a:visited, a:hover, a:active {
   text-decoration: none;
 }
 
+.modal {
+  /* background-image: url("./assets/complete_window.png"); */
+}
+
 .App {
   text-align: center;
   background-image: url("./assets/bg.png");

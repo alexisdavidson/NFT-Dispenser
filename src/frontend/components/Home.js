@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { ethers } from "ethers"
 import { Row, Col, Card, Button, Form, InputGroup } from 'react-bootstrap'
+import Modal from 'react-bootstrap/Modal';
 import configContract from './configContract';
 import dispenserIdle from './assets/Idle.gif'
 import dispenserActivate from './assets/Activate.gif'
@@ -12,25 +13,39 @@ const toWei = (num) => ethers.utils.parseEther(num.toString())
 
 const Home = ({ web3Handler, account, nft, token }) => {
     const [playing, setPlaying] = useState(false)
+    const [showInfo, setShowInfo] = useState(false);
+    const [showPrize, setShowPrize] = useState(false);
+    const [showRedeem, setShowRedeem] = useState(false);
+    const [showCrank, setShowCrank] = useState(false);
+  
+    const handleClose = () => { 
+        setShowInfo(false);
+        setShowPrize(false);
+        setShowRedeem(false);
+        setShowCrank(false);
+    }
 
     const infoPopup = () => {
         console.log("infoPopup")
+        setShowInfo(true);
     }
 
     const prizePopup = () => {
         console.log("prizePopup")
-    }
-
-    const getPork = () => {
-        console.log("getPork")
-        // link to uniswap
+        setShowPrize(true);
     }
 
     const redeemPopup = () => {
         console.log("redeemPopup")
+        setShowRedeem(true);
     }
 
-    const crank = async () => {
+    const crankPopup = () => {
+        console.log("crankPopup")
+        setShowCrank(true);
+    }
+
+    const triggerMint = async () => {
         if (account == null) {
             web3Handler();
             return;
@@ -39,11 +54,11 @@ const Home = ({ web3Handler, account, nft, token }) => {
         setPlaying(true)
         console.log("play")
 
-        let price = fromWei(await nft.getPrice())
-        console.log("price is : " + price)
+        // let price = fromWei(await nft.getPrice())
+        // console.log("price is : " + price)
         await(await nft.mint()).wait()
         setPlaying(false)
-      }
+    }
 
     useEffect(() => {
     }, [])
@@ -58,7 +73,7 @@ const Home = ({ web3Handler, account, nft, token }) => {
                     </Row>
                     <Row style={{marginTop: "150px"}}>
                         <a href="#">
-                            <div class="roseButton my-3" onClick={crank} ><p>CRANK</p></div>
+                            <div class="roseButton my-3" onClick={triggerMint} ><p>CRANK</p></div>
                         </a>
                     </Row>
                     <Row className="m-0 p-0">
@@ -112,6 +127,53 @@ const Home = ({ web3Handler, account, nft, token }) => {
                     </a>
                 </Col>
             </Row>
+
+
+        {/* Modals */}
+
+        <Modal show={showInfo} onHide={handleClose}>
+            <Modal.Header closeButton>
+                <Modal.Title>Info</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>1 'NFT Winner' Trait = Special Prize</Modal.Body>
+            <Modal.Body>2 'NFT Winner' Trait = Grand Prize</Modal.Body>
+            <Modal.Body>3 'NFT Winner' Trait = Ultimate Prize</Modal.Body>
+            <Modal.Footer>
+                <Button variant="secondary" onClick={handleClose}>
+                    Close
+                </Button>
+            </Modal.Footer>
+        </Modal>
+
+        <Modal show={showCrank} onHide={handleClose}>
+            <Modal.Header closeButton>
+                <Modal.Title>Crank</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>1 $PORK</Modal.Body>
+            <Modal.Footer>
+                <Button variant="secondary" onClick={handleClose}>
+                    Cancel
+                </Button>
+                <Button variant="primary" onClick={handleClose}>
+                    Crank
+                </Button>
+            </Modal.Footer>
+        </Modal>
+
+        <Modal show={showPrize} onHide={handleClose}>
+            <Modal.Header closeButton>
+                <Modal.Title>Prize</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>Consolation Prize = 1 Old Farm Man</Modal.Body>
+            <Modal.Body>Special Prize = 1 NFT Worth 1 $ETH</Modal.Body>
+            <Modal.Body>Grand Prize = 1 NFT Worth 5 $ETH</Modal.Body>
+            <Modal.Body>Ultimate Prize = ??????????</Modal.Body>
+            <Modal.Footer>
+                <Button variant="secondary" onClick={handleClose}>
+                    Close
+                </Button>
+            </Modal.Footer>
+        </Modal>
         </div>
     );
 }
