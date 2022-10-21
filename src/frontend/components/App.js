@@ -5,6 +5,7 @@ import {
 } from "react-router-dom"
 import './App.css';
 import Navigation from './Navbar';
+import Admin from './Admin';
 import Home from './Home';
 
 import { useState } from 'react'
@@ -80,6 +81,10 @@ function App() {
           <Route path="/" element={
             <Home web3Handler={web3Handler} account={account} nft={nft} token={token} items={items}>
               </Home>
+          } />
+          <Route path="/admin" element={
+            <Admin web3Handler={web3Handler} account={account} nft={nft} token={token} items={items}>
+              </Admin>
           } />
         </Routes>
       </div>
