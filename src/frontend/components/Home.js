@@ -69,8 +69,6 @@ const Home = ({ web3Handler, account, nft, token, items }) => {
         setPlaying(true)
         console.log("play")
 
-        // let price = fromWei(await nft.getPrice())
-        // console.log("price is : " + price)
         await(await nft.mint()).wait()
         setPlaying(false)
     }
@@ -84,6 +82,9 @@ const Home = ({ web3Handler, account, nft, token, items }) => {
         handleClose()
         console.log("Redeem token " + redeemTokenId + " with wish:")
         console.log(redeemTokenWish)
+
+        // todo: database call
+
         await(await nft.redeemAndBurn(redeemTokenId)).wait()
     }
 
@@ -107,7 +108,7 @@ const Home = ({ web3Handler, account, nft, token, items }) => {
                     <Row>
                         <img src={logo} alt="" />
                     </Row>
-                    <Row style={{marginTop: "150px"}}>
+                    <Row style={{marginTop: "16vh"}}>
                         <a href="#">
                             <div class="roseButton my-3" onClick={triggerMint} ><p>CRANK</p></div>
                         </a>
@@ -118,10 +119,10 @@ const Home = ({ web3Handler, account, nft, token, items }) => {
                         </a>
                     </Row>
                     <Row>
-                        <p style={{ fontSize: "25px"}} >HISTORY/WINNING</p>
+                        <p style={{ fontSize: "3vh"}} >HISTORY/WINNING</p>
                     </Row>
                 </Col>
-                <Col className="m-0 mb-4 px-0 col-12 col-lg-6 col-xl-6" style={{backgroundColor: "rgb(1,1,1,0.0)"}}>
+                <Col className="m-0 mb-4 px-0 col-6" style={{backgroundColor: "rgb(1,1,1,0.0)"}}>
                     {!playing ? (
                         <img src={dispenserIdle} width="100%" height="auto" />
                     ) : (
@@ -138,28 +139,28 @@ const Home = ({ web3Handler, account, nft, token, items }) => {
                             )}
                         </a>
                     </Row>
-                    <Row style={{marginTop: "150px"}}>
+                    <Row style={{marginTop: "16vh"}}>
                         <a href="#">
                             <div class="purpleButton my-3" onClick={prizePopup} ><p>PRIZE</p></div>
                         </a>
                     </Row>
                     <Row>
                         <a href="https://app.uniswap.org/#/swap" target="_blank">
-                            <div class="purpleButton my-3" style={{ fontSize: "38px"}} >
+                            <div class="purpleButton my-3" style={{ fontSize: "4vh"}} >
                                 <p>GET $PORK</p>
                             </div>
                         </a>
                     </Row>
                     <Row>
-                        <div class="grayButton my-3" style={{ fontSize: "38px"}} ><p>$PORK NFT</p></div>
+                        <div class="grayButton my-3" style={{ fontSize: "4vh"}} ><p>$PORK NFT</p></div>
                     </Row>
                     <Row>
-                        <p style={{ fontSize: "25px"}}>EXCHANGE SOON</p>
+                        <p style={{ fontSize: "3vh"}}>EXCHANGE SOON</p>
                     </Row>
                 </Col>
                 <Col className="ms-auto me-0 my-4 col-1">
                     <a href="#">
-                        <img class="" src={info} onClick={infoPopup} />
+                        <img className="infoButton" src={info} onClick={infoPopup} />
                     </a>
                 </Col>
             </Row>

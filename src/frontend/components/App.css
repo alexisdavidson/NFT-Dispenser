@@ -15,6 +15,17 @@ body {
   height: 100vh;
 }
 
+.App {
+  text-align: center;
+  background-image: url("./assets/bg.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: auto;
+  height: 100vh;
+  font-family: myFirstFont;
+  color: white;
+}
+
 .center {
   display: block;
   margin-left: auto;
@@ -50,7 +61,7 @@ a:link, a:visited, a:hover, a:active {
   background-size: 100% 100%;
   margin: auto;
   padding: auto;
-  font-size: 48px;
+  font-size: 5vh;
   display: flex;
 }
 
@@ -61,8 +72,8 @@ a:link, a:visited, a:hover, a:active {
   margin: 0;
   padding: 0;
   background-color: rgb(0, 0, 0, 0);
-  width: 100px;
-  height: 100px;
+  width: 10vh;
+  height: 10vh;
   border-color: rgb(0, 0, 0, 0);
 }
 
@@ -73,28 +84,17 @@ a:link, a:visited, a:hover, a:active {
 .WarningMessage {
   text-align: center;
   background-size: cover;
-  margin-top: 100px;
-}
-
-.App {
-  text-align: center;
-  background-image: url("./assets/bg.png");
-  background-repeat: no-repeat;
-  background-size: cover;
-  width: auto;
-  height: 100vh;
-  font-family: myFirstFont;
-  color: white;
+  margin-top: 10vh;
 }
 
 .roseButton {
   background-image: url("./assets/Group 20.png");
-  width: 254px;
-  height: 104px;
+  width: 27vh;
+  height: 11vh;
+  font-size: 5vh;
   background-size: cover;
   margin: auto;
   padding: auto;
-  font-size: 48px;
   display: flex;
 }
 
@@ -104,12 +104,12 @@ a:link, a:visited, a:hover, a:active {
 
 .pinkButton {
   background-image: url("./assets/Group 26.png");
-  width: 254px;
-  height: 104px;
+  width: 27vh;
+  height: 11vh;
+  font-size: 5vh;
   background-size: cover;
   margin: auto;
   padding: auto;
-  font-size: 48px;
   display: flex;
 }
 
@@ -119,12 +119,12 @@ a:link, a:visited, a:hover, a:active {
 
 .purpleButton {
   background-image: url("./assets/Group 22.png");
-  width: 254px;
-  height: 104px;
+  width: 27vh;
+  height: 11vh;
+  font-size: 5vh;
   background-size: cover;
   margin: auto;
   padding: auto;
-  font-size: 48px;
   display: flex;
 }
 
@@ -134,15 +134,24 @@ a:link, a:visited, a:hover, a:active {
 
 .grayButton {
   background-image: url("./assets/Group 24.png");
-  width: 254px;
-  height: 104px;
+  width: 27vh;
+  height: 11vh;
+  font-size: 5vh;
   background-size: cover;
   margin: auto;
   padding: auto;
-  font-size: 48px;
   display: flex;
 }
 
 .grayButton p {
   margin: auto;
+}
+
+.infoButton {
+  width: 11vh;
+  height: 11vh;
+  font-size: 5vh;
+  margin: auto;
+  padding: auto;
+  display: flex;
 }
