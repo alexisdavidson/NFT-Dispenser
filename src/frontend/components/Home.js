@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import { ethers } from "ethers"
 import { Row, Col, Card, Button, Form, InputGroup } from 'react-bootstrap'
 import Modal from 'react-bootstrap/Modal';
-import configContract from './configContract';
 import dispenserIdle from './assets/Idle.gif'
 import dispenserActivate from './assets/Activate.gif'
 import logo from './assets/PorkersLogo.png'
@@ -11,7 +10,7 @@ import info from './assets/info_button01.png'
 const fromWei = (num) => ethers.utils.formatEther(num)
 const toWei = (num) => ethers.utils.parseEther(num.toString())
 
-const Home = ({ web3Handler, account, nft, token }) => {
+const Home = ({ web3Handler, account, nft, token, items }) => {
     const [playing, setPlaying] = useState(false)
     const [showInfo, setShowInfo] = useState(false);
     const [showPrize, setShowPrize] = useState(false);
@@ -83,6 +82,15 @@ const Home = ({ web3Handler, account, nft, token }) => {
         handleClose()
         console.log("Redeem token " + redeemTokenId)
         await(await nft.redeemAndBurn(redeemTokenId)).wait()
+    }
+
+    const isNftWinner = (item) => {
+        if (item.traits.filter(e => e.trait_type == "Headgear")[0].value == "Soda Cap" // change to NFT Winner when not testing
+        || item.traits.filter(e => e.trait_type == "Hand")[0].value == "NFT Winner"
+        || item.traits.filter(e => e.trait_type == "Top")[0].value == "NFT Winner") {
+            return true;
+        }
+        return false;
     }
 
     useEffect(() => {
@@ -213,20 +221,30 @@ const Home = ({ web3Handler, account, nft, token }) => {
             {showHistory ? (
                 <Row className="popupFrame m-0 p-0 container-fluid" >
                     <Row className="splashScreen my-3 p-5 container-fluid" style={{ fontSize: "4vh"}} >
-                        <Row className="mx-auto mt-4 p-0">
-                            <Col className="col-1 p-0">1.</Col>
-                            <Col className="col-6 p-0">Old Farm Man #32</Col>
-                            <Col className="col-5 p-0">Not A Winner</Col>
-                        </Row>
-                        <Row className="mx-auto mt-4 p-0">
-                            <Col className="col-1 p-0">2.</Col>
-                            <Col className="col-6 p-0">Old Farm Man #789</Col>
-                            <Col className="col-5 p-0">
-                                <a href="#">
-                                    <div class="pinkButton" onClick={() => redeemPopup(2)}><p>REDEEM</p></div>
-                                </a>
-                            </Col>
-                        </Row>
+
+                        {items.length > 0 ?
+                            <>
+                                {items.map((item, idx) => (
+                                    <Row key={idx} className="mx-auto mt-4 p-0">
+                                        <Col className="col-1 p-0">{idx + 1}.</Col>
+                                        <Col className="col-6 p-0">{item.name}</Col>
+                                        <Col className="col-5 p-0">
+                                            {isNftWinner(item) ?
+                                                <a href="#">
+                                                    <div class="pinkButton" onClick={() => redeemPopup(item.token_id)}><p>REDEEM</p></div>
+                                                </a>
+                                            : (
+                                                <>Not A Winner</>
+                                            )}
+                                        </Col>
+                                    </Row>
+                                ))}
+                            </>
+                        : (
+                            <Row className="mx-auto mt-4 p-0">
+                                <h2>No listed assets.</h2>
+                            </Row>
+                        )}
                     </Row>
                     <Button className="frameCloseButton" onClick={handleClose}></Button>
                 </Row>

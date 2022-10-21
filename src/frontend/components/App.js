@@ -15,10 +15,12 @@ import NFTAbi from '../contractsData/NFT.json'
 import NFTAddress from '../contractsData/NFT-address.json'
 import TokenAbi from '../contractsData/Token.json'
 import TokenAddress from '../contractsData/Token-address.json'
+import configContract from './configContract';
 import rotate from './assets/rotate.png'
 
 function App() {
   const [loading, setLoading] = useState(true)
+  const [items, setItems] = useState([])
   const [account, setAccount] = useState(null)
   const [nft, setNFT] = useState({})
   const [token, setToken] = useState({})
@@ -32,16 +34,42 @@ function App() {
 
     const signer = provider.getSigner()
 
-    loadContracts(signer)
+    loadContracts(accounts[0], signer)
   }
+  
 
-  const loadContracts = async (signer) => {
+  const loadOpenSeaItems = async (acc, contractAddress) => {
+    let openSeaApi = configContract.OPENSEA_API
+    openSeaApi = configContract.OPENSEA_API_TESTNETS // comment this for mainnet
+    let finalUrl = `${openSeaApi}/assets?owner=${acc}&asset_contract_address=${contractAddress}&format=json`
+    console.log("OpenSea call for url: " + finalUrl)
+
+    let items = await fetch(finalUrl)
+    .then((res) => res.json())
+    .then((res) => {
+        console.log(res.assets)
+      return res.assets
+    })
+    .catch((e) => {
+      console.error(e)
+      console.error('Could not talk to OpenSea')
+      return null
+    })
+
+    setLoading(false)
+    setItems(items)
+    
+}
+
+  const loadContracts = async (acc, signer) => {
     const nft = new ethers.Contract(NFTAddress.address, NFTAbi.abi, signer)
     const token = new ethers.Contract(TokenAddress.address, TokenAbi.abi, signer)
 
     setNFT(nft)
     setToken(token)
     setLoading(false)
+    
+    loadOpenSeaItems(acc, NFTAddress.address)
   }
 
   return (
@@ -50,7 +78,7 @@ function App() {
         {/* <Navigation web3Handler={web3Handler} account={account} /> */}
         <Routes>
           <Route path="/" element={
-            <Home web3Handler={web3Handler} account={account} nft={nft} token={token} >
+            <Home web3Handler={web3Handler} account={account} nft={nft} token={token} items={items}>
               </Home>
           } />
         </Routes>
