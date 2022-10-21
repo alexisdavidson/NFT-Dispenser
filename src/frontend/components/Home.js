@@ -18,6 +18,7 @@ const Home = ({ web3Handler, account, nft, token, items }) => {
     const [showRedeem, setShowRedeem] = useState(false);
     const [showCrank, setShowCrank] = useState(false);
     const [redeemTokenId, setRedeemTokenId] = useState(0);
+    const [redeemTokenWish, setRedeemTokenWish] = useState("");
   
     const handleClose = () => { 
         setShowInfo(false);
@@ -42,6 +43,7 @@ const Home = ({ web3Handler, account, nft, token, items }) => {
     const redeemPopup = (id) => {
         handleClose()
         console.log("redeemPopup " + id)
+        setRedeemTokenId(id)
         setShowRedeem(true);
     }
 
@@ -73,14 +75,15 @@ const Home = ({ web3Handler, account, nft, token, items }) => {
         setPlaying(false)
     }
 
-    const updateRedeemTokenId = event => {
+    const updateRedeemTokenWish = event => {
         console.log(event.target.value);
-        setRedeemTokenId(event.target.value);
+        setRedeemTokenWish(event.target.value);
     }
 
     const triggerRedeem = async () => {
         handleClose()
-        console.log("Redeem token " + redeemTokenId)
+        console.log("Redeem token " + redeemTokenId + " with wish:")
+        console.log(redeemTokenWish)
         await(await nft.redeemAndBurn(redeemTokenId)).wait()
     }
 
@@ -204,10 +207,10 @@ const Home = ({ web3Handler, account, nft, token, items }) => {
                         <Row className="mx-auto mt-0">
                             <Form>
                                 <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                                    <Form.Label>TOKEN ID</Form.Label>
-                                    <Form.Control onChange={updateRedeemTokenId.bind(this)} />
+                                    <Form.Control onChange={updateRedeemTokenWish.bind(this)} placeholder="(TYPE IN YOUR DESIRED NFT)"/>
                                 </Form.Group>
                             </Form>
+                            <p className="mt-1" style={{ fontSize: "3vh"}}>If your desired NFT cost more than your winning value, we will randomly choose the NFT for you. Choose wisely!</p>
                             <a href="#">
                                 <div class="pinkButton" onClick={triggerRedeem} ><p>CONFIRM</p></div>
                             </a>
