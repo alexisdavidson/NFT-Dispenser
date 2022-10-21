@@ -152,7 +152,9 @@ const Home = ({ web3Handler, account, nft, token, items }) => {
                         </a>
                     </Row>
                     <Row>
-                        <div class="grayButton my-3" style={{ fontSize: "4vh"}} ><p>$PORK NFT</p></div>
+                        <a href="#">
+                            <div class="grayButton my-3" style={{ fontSize: "3.5vh"}} ><p>$PORK NFT</p></div>
+                        </a>
                     </Row>
                     <Row>
                         <p style={{ fontSize: "3vh"}}>EXCHANGE SOON</p>
