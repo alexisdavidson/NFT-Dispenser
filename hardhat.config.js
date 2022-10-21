@@ -1,6 +1,7 @@
 require("@nomiclabs/hardhat-waffle");
 require("@nomiclabs/hardhat-ethers");
 require("@nomiclabs/hardhat-etherscan");
+require("hardhat-gas-reporter");
 require("dotenv").config();
 const { REACT_APP_API_URL, REACT_APP_PRIVATE_KEY } = process.env;
 
@@ -33,7 +34,7 @@ module.exports = {
        url: process.env.REACT_APP_API_URL_MAINNET,
        accounts: [process.env.REACT_APP_PRIVATE_KEY_MAINNET],
        gas: 2100000,
-       gasPrice: 8000000000
+       gasPrice: 18000000000
      }
   },
   paths: {

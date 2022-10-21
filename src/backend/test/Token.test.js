@@ -17,15 +17,17 @@ describe("Token", async function() {
         [deployer, addr1, addr2] = await ethers.getSigners();
         whitelist = [addr1.address, addr2.address]
 
+        const subscriptionId = 473; // mainnet
+
         // Deploy contracts
-        nft = await NFT.deploy(teamWallet, whitelist);
-        token = await Token.deploy();
+        token = await Token.deploy([teamWallet]);
+        nft = await NFT.deploy(token.address, subscriptionId);
     });
 
     describe("Deployment", function() {
         it("Should track name and symbol of the token", async function() {
-            expect(await token.name()).to.equal("PORK Coin")
-            expect(await token.symbol()).to.equal("PC")
+            expect(await token.name()).to.equal("Porkers")
+            expect(await token.symbol()).to.equal("PORK")
         })
     })
 })

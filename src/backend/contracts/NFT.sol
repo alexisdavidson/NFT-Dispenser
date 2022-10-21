@@ -18,8 +18,9 @@ contract NFT is ERC721URIStorage, Ownable, VRFConsumerBaseV2 {
     uint256 public price = 1 ether; // 1 $PORK to play
 
     uint16[] private availableTokens;
-    address[] private redeemedTokens;
-    uint16 private tokensInitializedCount;
+
+    address[] private redeemedTokensUser;
+    uint16[] private redeemedTokensTokenId;
     
     //VRF Chainlink **************************************************************************************
     uint64 s_subscriptionId;
@@ -46,28 +47,17 @@ contract NFT is ERC721URIStorage, Ownable, VRFConsumerBaseV2 {
         // Initialize Chainlink Coordinator
         COORDINATOR = VRFCoordinatorV2Interface(vrfCoordinator);
         s_subscriptionId = subscriptionId;
-
-        availableTokens = new uint16[](max_supply);
-        redeemedTokens = new address[](max_supply);
     }
 
-    function initializeTokens(uint16 _count) external onlyOwner {
-        uint16 _tokensInitializedCount = tokensInitializedCount;
-        require(_tokensInitializedCount + _count <= max_supply, "Cannot initialize more tokens than the max_supply");
+    function initializeTokens() external onlyOwner {
+        require(availableTokens.length < max_supply, "Cannot initialize more tokens than the max_supply");
         
-        _count += 1;
-        for (uint16 i = 1; i < _count;) {
-            uint16 _currentIndex = _tokensInitializedCount + i;
-            availableTokens[_currentIndex] = _currentIndex;
+        uint16 _max_supply = max_supply + 1;
+        for (uint16 i = 1; i < _max_supply;) {
+            availableTokens.push(i);
+
             unchecked { ++i; }
         }
-
-        tokensInitializedCount += _count - 1;
-    }
-
-    function initializeToken(uint16 _tokenId) external onlyOwner {
-        availableTokens[_tokenId] = _tokenId;
-        tokensInitializedCount += 1;
     }
 
     function tokenURI(uint256 _tokenId) public view virtual override returns (string memory) {
@@ -110,10 +100,12 @@ contract NFT is ERC721URIStorage, Ownable, VRFConsumerBaseV2 {
         emit MintSuccessful(minter, resultRandomTokenId);
     }
 
-    function redeemAndBurn(uint256 _tokenId) external {
+    function redeemAndBurn(uint16 _tokenId) external {
         require(msg.sender == ownerOf(_tokenId), "You are not the owner of this token");
 
-        redeemedTokens[_tokenId] = msg.sender;
+        redeemedTokensUser.push(msg.sender);
+        redeemedTokensTokenId.push(_tokenId);
+
         _burn(_tokenId);
         
         emit Redeem(msg.sender, _tokenId);
@@ -170,15 +162,15 @@ contract NFT is ERC721URIStorage, Ownable, VRFConsumerBaseV2 {
         mintersQueue.pop();
     }
     
-    function getRedeemedTokens() public view returns (address[] memory) {
-        return redeemedTokens;
+    function getRedeemedTokensUser() public view returns (address[] memory) {
+        return redeemedTokensUser;
+    }
+    
+    function getRedeemedTokensTokenId() public view returns (uint16[] memory) {
+        return redeemedTokensTokenId;
     }
 
     function getAvailableTokensCount() public view returns (uint256) {
         return availableTokens.length;
-    }
-
-    function getTokensInitializedCount() public view returns (uint16) {
-        return tokensInitializedCount;
     }
 }
