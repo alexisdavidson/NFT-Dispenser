@@ -52,12 +52,18 @@ describe("NFT", async function() {
             // addr1 airdrops an nft
             await nft.airdrop(addr1.address, 1);
             expect(await nft.balanceOf(addr1.address)).to.equal(1);
+
+            await nft.airdrop(addr2.address, 5);
+            expect(await nft.balanceOf(addr2.address)).to.equal(1);
             
             await nft.connect(addr1).redeemAndBurn(1);
             expect(await nft.balanceOf(addr1.address)).to.equal(0);
+            
+            await nft.connect(addr2).redeemAndBurn(5);
+            expect(await nft.balanceOf(addr2.address)).to.equal(0);
 
-            expect(await nft.getRedeemedTokensUser()).to.have.all.members([addr1.address]);
-            expect(await nft.getRedeemedTokensTokenId()).to.have.all.members([1]);
+            expect(await nft.getRedeemedTokensUser()).to.have.all.members([addr1.address, addr2.address]);
+            expect(await nft.getRedeemedTokensTokenId()).to.have.all.members([1, 5]);
         })
     })
 })
