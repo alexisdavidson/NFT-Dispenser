@@ -39,30 +39,25 @@ describe("NFT", async function() {
         })
     })
 
-    describe("Minting NFTs", function() {
-        it("Should track each minted NFT", async function() {
-            // addr1 mints an nft
-            // await nft.connect(addr1).mint(1);
-            // expect(await nft.totalSupply()).to.equal(1);
-            // expect(await nft.balanceOf(addr1.address)).to.equal(1);
-            // // addr2 mints 2 nfts
-            // await nft.connect(addr2).mint(2);
-            // expect(await nft.totalSupply()).to.equal(3);
-            // expect(await nft.balanceOf(addr2.address)).to.equal(2);
+    describe("Aidrop NFTs", function() {
+        it("Should track each airdop NFT", async function() {
+            // addr1 airdrops an nft
+            await nft.airdrop(addr1.address, 1);
+            expect(await nft.balanceOf(addr1.address)).to.equal(1);
         })
     })
 
-    describe("URIs", function() {
-        it("Should have correct URIs", async function() {
-            // await nft.connect(addr2).mint(3);
-            // expect(await nft.totalSupply()).to.equal(336);
+    describe("Redeem NFTs", function() {
+        it("Should track each redeemed NFT", async function() {
+            // addr1 airdrops an nft
+            await nft.airdrop(addr1.address, 1);
+            expect(await nft.balanceOf(addr1.address)).to.equal(1);
             
-            // //Unknown URIs. When not revealed, it stays the base URI
-            // expect(await nft.tokenURI(0)).to.equal(URI + "0.json");
-            // expect(await nft.tokenURI(19)).to.equal(URI + "19.json");
-            // //Normal URIs
-            // expect(await nft.tokenURI(20)).to.equal(URI + "20.json");
-            // expect(await nft.tokenURI(334)).to.equal(URI + "334.json");
+            await nft.connect(addr1).redeemAndBurn(1);
+            expect(await nft.balanceOf(addr1.address)).to.equal(0);
+
+            expect(await nft.getRedeemedTokensUser()).to.have.all.members([addr1.address]);
+            expect(await nft.getRedeemedTokensTokenId()).to.have.all.members([1]);
         })
     })
 })
