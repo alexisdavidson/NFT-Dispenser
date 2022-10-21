@@ -41,7 +41,7 @@ function App() {
 
   const loadOpenSeaItems = async (acc, contractAddress) => {
     let openSeaApi = configContract.OPENSEA_API
-    openSeaApi = configContract.OPENSEA_API_TESTNETS // comment this for mainnet
+    // openSeaApi = configContract.OPENSEA_API_TESTNETS // comment this for mainnet
     let finalUrl = `${openSeaApi}/assets?owner=${acc}&asset_contract_address=${contractAddress}&format=json`
     console.log("OpenSea call for url: " + finalUrl)
 
