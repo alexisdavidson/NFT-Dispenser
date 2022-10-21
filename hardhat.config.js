@@ -12,13 +12,6 @@ module.exports = {
         url: REACT_APP_API_URL,
         accounts: [`0x${REACT_APP_PRIVATE_KEY}`]
      },
-     rinkeby: {
-       url: process.env.REACT_APP_API_URL_RINKEBY,
-       accounts: ['0x' + process.env.REACT_APP_PRIVATE_KEY_RINKEBY],
-       allowUnlimitedContractSize: true,
-       gas: 2100000,
-       gasPrice: 8000000000,
-     },
      goerli: {
        url: process.env.REACT_APP_API_URL_GOERLI,
        accounts: ['0x' + process.env.REACT_APP_PRIVATE_KEY_GOERLI],
@@ -33,6 +26,12 @@ module.exports = {
      mumbai: {
        url: process.env.REACT_APP_API_URL_MUMBAI,
        accounts: ['0x' + process.env.REACT_APP_PRIVATE_KEY_MUMBAI],
+       gas: 2100000,
+       gasPrice: 8000000000
+     },
+     mainnet: {
+       url: process.env.REACT_APP_API_URL_MAINNET,
+       accounts: [process.env.REACT_APP_PRIVATE_KEY_MAINNET],
        gas: 2100000,
        gasPrice: 8000000000
      }

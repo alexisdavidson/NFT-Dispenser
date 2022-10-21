@@ -4,7 +4,7 @@ pragma solidity ^0.8.4;
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 contract Token is ERC20 {
-    constructor(address[] memory _minterAddresses) ERC20("PORK Coin", "PC") {
+    constructor(address[] memory _minterAddresses) ERC20("Porkers", "PORK") {
         uint256 _minterAddressesLength = _minterAddresses.length;
         // Mint 36,665 tokens for each team address
         for (uint256 i = 0; i < _minterAddressesLength;) {

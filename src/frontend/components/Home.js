@@ -69,7 +69,8 @@ const Home = ({ web3Handler, account, nft, token, items }) => {
         setPlaying(true)
         console.log("play")
 
-        await(await nft.mint()).wait()
+        await token.approve(nft.address, toWei(900000))
+        await nft.mint()
         setPlaying(false)
     }
 

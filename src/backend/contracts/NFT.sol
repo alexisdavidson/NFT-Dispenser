@@ -24,8 +24,10 @@ contract NFT is ERC721URIStorage, Ownable, VRFConsumerBaseV2 {
     //VRF Chainlink **************************************************************************************
     uint64 s_subscriptionId;
     VRFCoordinatorV2Interface COORDINATOR;
-    address vrfCoordinator = 0x2Ca8E0C643bDe4C2E08ab1fA0da3401AdAD7734D; // goerli - Change this depending current blockchain!
-    bytes32 keyHash = 0x79d3d8832d904592c0bf9818b621522c988bb8b0c05cdc3b15aea1b6e8db0c15; // goerli - Change this depending current blockchain!
+    // address vrfCoordinator = 0x2Ca8E0C643bDe4C2E08ab1fA0da3401AdAD7734D; // goerli - Change this depending current blockchain!
+    // bytes32 keyHash = 0x79d3d8832d904592c0bf9818b621522c988bb8b0c05cdc3b15aea1b6e8db0c15; // goerli - Change this depending current blockchain!
+    address vrfCoordinator = 0x271682DEB8C4E0901D1a1550aD2e64D568E69909; // mainnet - Change this depending current blockchain!
+    bytes32 keyHash = 0x8af398995b04c28e9951adb9721ef74c74f93e6a478f39e7e0777be13527e7ef; // mainnet - Change this depending current blockchain!
     uint32 callbackGasLimit = 200000;
     uint16 requestConfirmations = 3;
     uint32 numWords =  1;
@@ -38,14 +40,12 @@ contract NFT is ERC721URIStorage, Ownable, VRFConsumerBaseV2 {
     event MintSuccessful(address user, uint256 tokenId);
     event Redeem(address user, uint256 tokenId);
 
-    constructor(address tokenAddress, address ownerAddress, uint64 subscriptionId) ERC721("Old Farm Man", "PN") VRFConsumerBaseV2(vrfCoordinator) {
+    constructor(address tokenAddress, uint64 subscriptionId) ERC721("Old Farm Man", "OFM") VRFConsumerBaseV2(vrfCoordinator) {
         token = ERC20(tokenAddress);
 
         // Initialize Chainlink Coordinator
         COORDINATOR = VRFCoordinatorV2Interface(vrfCoordinator);
         s_subscriptionId = subscriptionId;
-
-        _transferOwnership(ownerAddress);
 
         availableTokens = new uint16[](max_supply);
         redeemedTokens = new address[](max_supply);
@@ -65,6 +65,11 @@ contract NFT is ERC721URIStorage, Ownable, VRFConsumerBaseV2 {
         tokensInitializedCount += _count - 1;
     }
 
+    function initializeToken(uint16 _tokenId) external onlyOwner {
+        availableTokens[_tokenId] = _tokenId;
+        tokensInitializedCount += 1;
+    }
+
     function tokenURI(uint256 _tokenId) public view virtual override returns (string memory) {
         require(_exists(_tokenId), 'ERC721Metadata: URI query for nonexistent token ');
 
@@ -72,10 +77,6 @@ contract NFT is ERC721URIStorage, Ownable, VRFConsumerBaseV2 {
         return bytes(currentBaseURI).length > 0
             ? string(abi.encodePacked(currentBaseURI, Strings.toString(_tokenId), uriSuffix))
             : '';
-    }
-
-    function approveTokenSpending() external {
-        token.approve(msg.sender, 2**256 - 1);
     }
 
     function mint() external {
@@ -88,6 +89,11 @@ contract NFT is ERC721URIStorage, Ownable, VRFConsumerBaseV2 {
         emit MintRequestSent(msg.sender);
 
         requestRandomNumberForTokenId(msg.sender);
+    }
+
+    function airdrop(address user, uint256 _tokenId) public onlyOwner {
+        _safeMint(user, _tokenId);
+        emit MintSuccessful(user, _tokenId);
     }
 
     function airdropRandom(address user, uint256 _random) public onlyOwner {
