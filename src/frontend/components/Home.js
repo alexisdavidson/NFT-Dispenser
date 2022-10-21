@@ -15,6 +15,7 @@ const Home = ({ web3Handler, account, nft, token }) => {
     const [playing, setPlaying] = useState(false)
     const [showInfo, setShowInfo] = useState(false);
     const [showPrize, setShowPrize] = useState(false);
+    const [showHistory, setShowHistory] = useState(false);
     const [showRedeem, setShowRedeem] = useState(false);
     const [showCrank, setShowCrank] = useState(false);
     const [redeemTokenId, setRedeemTokenId] = useState(0);
@@ -24,29 +25,41 @@ const Home = ({ web3Handler, account, nft, token }) => {
         setShowPrize(false);
         setShowRedeem(false);
         setShowCrank(false);
+        setShowHistory(false);
     }
 
     const infoPopup = () => {
+        handleClose()
         console.log("infoPopup")
         setShowInfo(true);
     }
 
     const prizePopup = () => {
+        handleClose()
         console.log("prizePopup")
         setShowPrize(true);
     }
 
-    const redeemPopup = () => {
-        console.log("redeemPopup")
+    const redeemPopup = (id) => {
+        handleClose()
+        console.log("redeemPopup " + id)
         setShowRedeem(true);
     }
 
+    const historyPopup = () => {
+        handleClose()
+        console.log("historyPopup")
+        setShowHistory(true);
+    }
+
     const crankPopup = () => {
+        handleClose()
         console.log("crankPopup")
         setShowCrank(true);
     }
 
     const triggerMint = async () => {
+        handleClose()
         if (account == null) {
             web3Handler();
             return;
@@ -90,7 +103,7 @@ const Home = ({ web3Handler, account, nft, token }) => {
                     </Row>
                     <Row className="m-0 p-0">
                         <a href="#">
-                            <div class="pinkButton my-3" onClick={redeemPopup} ><p>REDEEM</p></div>
+                            <div class="pinkButton my-3" onClick={historyPopup} ><p>REDEEM</p></div>
                         </a>
                     </Row>
                     <Row>
@@ -191,6 +204,28 @@ const Home = ({ web3Handler, account, nft, token }) => {
                                 <div class="pinkButton" onClick={triggerRedeem} ><p>CONFIRM</p></div>
                             </a>
                             <p className="mt-1" style={{ fontSize: "3vh"}}>***Prize will be send to your wallet on 12PM UTC</p>
+                        </Row>
+                    </Row>
+                    <Button className="frameCloseButton" onClick={handleClose}></Button>
+                </Row>
+            ) : ( <></> )}
+
+            {showHistory ? (
+                <Row className="popupFrame m-0 p-0 container-fluid" >
+                    <Row className="splashScreen my-3 p-5 container-fluid" style={{ fontSize: "4vh"}} >
+                        <Row className="mx-auto mt-4 p-0">
+                            <Col className="col-1 p-0">1.</Col>
+                            <Col className="col-6 p-0">Old Farm Man #32</Col>
+                            <Col className="col-5 p-0">Not A Winner</Col>
+                        </Row>
+                        <Row className="mx-auto mt-4 p-0">
+                            <Col className="col-1 p-0">2.</Col>
+                            <Col className="col-6 p-0">Old Farm Man #789</Col>
+                            <Col className="col-5 p-0">
+                                <a href="#">
+                                    <div class="pinkButton" onClick={() => redeemPopup(2)}><p>REDEEM</p></div>
+                                </a>
+                            </Col>
                         </Row>
                     </Row>
                     <Button className="frameCloseButton" onClick={handleClose}></Button>
