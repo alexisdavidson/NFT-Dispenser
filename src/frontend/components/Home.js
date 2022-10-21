@@ -104,7 +104,7 @@ const Home = ({ web3Handler, account, nft, token, items }) => {
         // <div className="flex justify-center" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh'}}>
         <div className="m-0 p-0 container-fluid">
             <Row className="p-0 m-0">
-                <Col className="ps-5 pe-0 mx-0 my-4 col-3" style={{backgroundColor: "rgb(1,1,1,0.0)"}}>
+                <Col className="ps-5 pe-0 mx-0 my-4 col-3" style={{marginLeft: "", backgroundColor: "rgb(1,1,1,0.0)"}}>
                     <Row>
                         <img src={logo} alt="" />
                     </Row>

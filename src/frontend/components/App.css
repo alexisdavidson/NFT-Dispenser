@@ -155,3 +155,20 @@ a:link, a:visited, a:hover, a:active {
   padding: auto;
   display: flex;
 }
+
+.my-4 {
+  margin-top: 2.5vh !important;
+  margin-bottom: 2.5vh !important;
+}
+
+.mt-4 {
+  margin-top: 2.5vh !important;
+}
+
+.p-5 {
+  padding: 5.1vh !important;
+}
+
+.ps-5 {
+  padding-left: 5.1vh !important;
+}
