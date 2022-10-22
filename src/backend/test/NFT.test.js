@@ -41,6 +41,8 @@ describe("NFT", async function() {
 
             await nft.initializeTokens(3000);
             expect(await nft.getTokensInitializedCount()).to.equal(5000);
+
+            await expect(nft.initializeTokens(1)).to.be.revertedWith('Cannot initialize more tokens than the max_supply');
             
         })
     })
