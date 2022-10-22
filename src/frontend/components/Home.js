@@ -135,7 +135,7 @@ const Home = ({ web3Handler, account, nft, token, items, allowance }) => {
                     <Row style={{marginTop: "16vh"}}>
                         <a href="#">
                             <div class="roseButton my-3" onClick={triggerPlay} >
-                                    {allowance == "900000.0" ? 
+                                    {allowance == "900000.0" || account == null ? 
                                     <p>
                                         CRANK
                                     </p>
@@ -240,7 +240,7 @@ const Home = ({ web3Handler, account, nft, token, items, allowance }) => {
                 <Row className="popupFrame m-0 p-0 container-fluid" >
                     <Row className="splashScreen my-3 p-5 container-fluid" style={{ fontSize: "4vh"}} >
                         <Row className="mx-auto mt-4">
-                            <h2 className="mt-4" style={{ fontSize: "5vh"}}>REDEEM FOR?</h2>
+                            <h2 className="mt-4" style={{ fontSize: "5vh"}}>REDEEM?</h2>
                         </Row>
                         <Row className="mx-auto mt-0">
                             {/* <Form>
