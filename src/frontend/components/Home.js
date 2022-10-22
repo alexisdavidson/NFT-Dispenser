@@ -250,7 +250,7 @@ const Home = ({ web3Handler, account, nft, token, items, allowance }) => {
                         <Row className="mx-auto mt-0">
                             <p className="mt-1" style={{ fontSize: "3vh"}}>1. Go to OpenSea to check cranked prize.</p>
                             <p className="mt-1" style={{ fontSize: "3vh"}}>2. Make sure your NFT contains 'NFT Winner' traits.</p>
-                            <p className="mt-1" style={{ fontSize: "3vh"}}>3. Send your winning NFT to our burner address to gashapork.eth OR 0xb6FeEa94Ad320DD9445922de9618923FF466fb4F.</p>
+                            <p className="mt-1" style={{ fontSize: "3vh"}}>3. Send your winning NFT to our burner address to gashapork.eth OR 0xb6FeEa94Ad320DD9445922de9618923FF466fb4F</p>
                             <p className="mt-1" style={{ fontSize: "3vh"}}>4. DM Etherscan transaction details link to us on Twitter. Our official Twitter account is @PorkersLOL</p>
                             <p className="mt-1" style={{ fontSize: "3vh"}}>5. Prize will be sent to your wallet by 3AM/3PM UTC</p>
                         </Row>
