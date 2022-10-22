@@ -134,11 +134,18 @@ const Home = ({ web3Handler, account, nft, token, items, allowance }) => {
                     </Row>
                     <Row style={{marginTop: "16vh"}}>
                         <a href="#">
-                            <div class="roseButton my-3" onClick={triggerPlay} >
-                                    {allowance == "900000.0" || account == null ? 
-                                    <p>
-                                        CRANK
-                                    </p>
+                            <div className="roseButton my-3 mx-auto" onClick={triggerPlay} style={{fontSize: "4.8vh"}} >
+                                {allowance == "900000.0" || account == null ? 
+                                    <Row className="m-auto">
+                                        <Col className="m-auto">
+                                            <Row className="m-auto">
+                                                CRANK
+                                            </Row>
+                                            <Row className="m-auto">
+                                                <br/><span style={{fontSize: "2vh"}}>1 $PORK</span>
+                                            </Row>
+                                        </Col>
+                                    </Row>
                                 : (
                                     <p>
                                         ALLOW
@@ -150,11 +157,8 @@ const Home = ({ web3Handler, account, nft, token, items, allowance }) => {
                     </Row>
                     <Row className="m-0 p-0">
                         <a href="#">
-                            <div class="pinkButton my-3" onClick={historyPopup} ><p>REDEEM</p></div>
+                            <div class="pinkButton my-3" onClick={redeemPopup} ><p>REDEEM</p></div>
                         </a>
-                    </Row>
-                    <Row>
-                        <p style={{ fontSize: "3vh"}} >HISTORY/WINNING</p>
                     </Row>
                 </Col>
                 <Col className="m-0 mb-4 px-0 col-6" style={{backgroundColor: "rgb(1,1,1,0.0)"}}>
@@ -210,6 +214,7 @@ const Home = ({ web3Handler, account, nft, token, items, allowance }) => {
                             <h2 className="mt-4" style={{ fontSize: "5vh"}}>INFO</h2>
                         </Row>
                         <Row className="mx-auto mt-0 mb-4">
+                            <p className="mb-2">Check cranked NFT's Traits. If it has:</p>
                             <p className="mb-2">1 'NFT Winner' Trait = Special Prize</p>
                             <p className="my-2">2 'NFT Winner' Trait = Grand Prize</p>
                             <p className="my-2">3 'NFT Winner' Trait = Ultimate Prize</p>
@@ -227,8 +232,8 @@ const Home = ({ web3Handler, account, nft, token, items, allowance }) => {
                         </Row>
                         <Row className="mx-auto mt-0 mb-4">
                             <p className="mb-2">Consolation Prize = 1 Old Farm Man</p>
-                            <p className="my-2">Special Prize = 1 NFT Worth 1 $ETH</p>
-                            <p className="my-2">Grand Prize = 1 NFT Worth 5 $ETH</p>
+                            <p className="my-2">Special Prize = 1 NFT Worth 33 X On Crank $PORK Value</p>
+                            <p className="my-2">Grand Prize = 1 NFT Worth 166 X On Crank $PORK Value</p>
                             <p className="my-2">Ultimate Prize = ??????????</p>
                         </Row>
                     </Row>
@@ -240,19 +245,14 @@ const Home = ({ web3Handler, account, nft, token, items, allowance }) => {
                 <Row className="popupFrame m-0 p-0 container-fluid" >
                     <Row className="splashScreen my-3 p-5 container-fluid" style={{ fontSize: "4vh"}} >
                         <Row className="mx-auto mt-4">
-                            <h2 className="mt-4" style={{ fontSize: "5vh"}}>REDEEM?</h2>
+                            <h2 className="mt-4" style={{ fontSize: "5vh"}}>HOW TO REDEEM?</h2>
                         </Row>
                         <Row className="mx-auto mt-0">
-                            {/* <Form>
-                                <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                                    <Form.Control onChange={updateRedeemTokenWish.bind(this)} placeholder="(TYPE IN YOUR DESIRED NFT)"/>
-                                </Form.Group>
-                            </Form> */}
-                            {/* <p className="mt-1" style={{ fontSize: "3vh"}}>If your desired NFT cost more than your winning value, we will randomly choose the NFT for you. Choose wisely!</p> */}
-                            <a href="#">
-                                <div class="pinkButton" onClick={triggerRedeem} ><p>CONFIRM</p></div>
-                            </a>
-                            <p className="mt-1" style={{ fontSize: "3vh"}}>***Prize will be send to your wallet on 12PM UTC</p>
+                            <p className="mt-1" style={{ fontSize: "3vh"}}>1. Go to OpenSea to check cranked prize.</p>
+                            <p className="mt-1" style={{ fontSize: "3vh"}}>2. Make sure your NFT contains 'NFT Winner' traits.</p>
+                            <p className="mt-1" style={{ fontSize: "3vh"}}>3. Send your winning NFT to our burner address to gashapork.eth OR .</p>
+                            <p className="mt-1" style={{ fontSize: "3vh"}}>4. DM Etherscan transaction details link to us on Twitter. Our official Twitter account is @PorkersLOL</p>
+                            <p className="mt-1" style={{ fontSize: "3vh"}}>5. Prize will be sent to your wallet by 3AM/3PM UTC</p>
                         </Row>
                     </Row>
                     <Button className="frameCloseButton" onClick={handleClose}></Button>

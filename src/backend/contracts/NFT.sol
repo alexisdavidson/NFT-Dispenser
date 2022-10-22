@@ -173,6 +173,10 @@ contract NFT is ERC721URIStorage, Ownable, VRFConsumerBaseV2 {
         return redeemedTokensTokenId;
     }
 
+    function getAvailableTokensCount() public view returns (uint256) {
+        return availableTokens.length;
+    }
+
     function getTokensInitializedCount() public view returns (uint16) {
         return tokensInitializedCount;
     }
