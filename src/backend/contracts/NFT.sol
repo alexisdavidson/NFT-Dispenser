@@ -18,6 +18,7 @@ contract NFT is ERC721URIStorage, Ownable, VRFConsumerBaseV2 {
     uint256 public price = 1 ether; // 1 $PORK to play
 
     uint16[] private availableTokens;
+    uint16 private tokensInitializedCount;
 
     address[] private redeemedTokensUser;
     uint16[] private redeemedTokensTokenId;
@@ -48,16 +49,18 @@ contract NFT is ERC721URIStorage, Ownable, VRFConsumerBaseV2 {
         COORDINATOR = VRFCoordinatorV2Interface(vrfCoordinator);
         s_subscriptionId = subscriptionId;
     }
-
-    function initializeTokens() external onlyOwner {
-        require(availableTokens.length < max_supply, "Cannot initialize more tokens than the max_supply");
+    
+    function initializeTokens(uint16 _count) external onlyOwner {
+        uint16 _tokensInitializedCount = tokensInitializedCount;
+        require(_tokensInitializedCount + _count <= max_supply, "Cannot initialize more tokens than the max_supply");
         
-        uint16 _max_supply = max_supply + 1;
-        for (uint16 i = 1; i < _max_supply;) {
+        uint16 _lastCount = _tokensInitializedCount + _count + 1;
+        for (uint16 i = _tokensInitializedCount + 1; i < _lastCount;) {
             availableTokens.push(i);
-
             unchecked { ++i; }
         }
+
+        tokensInitializedCount += _count;
     }
 
     function tokenURI(uint256 _tokenId) public view virtual override returns (string memory) {
@@ -170,7 +173,7 @@ contract NFT is ERC721URIStorage, Ownable, VRFConsumerBaseV2 {
         return redeemedTokensTokenId;
     }
 
-    function getAvailableTokensCount() public view returns (uint256) {
-        return availableTokens.length;
+    function getTokensInitializedCount() public view returns (uint16) {
+        return tokensInitializedCount;
     }
 }

@@ -33,8 +33,14 @@ describe("NFT", async function() {
 
     describe("Initialize arrays", function() {
         it("Should initialize arrays correctly", async function() {
-            await nft.initializeTokens();
-            expect(await nft.getAvailableTokensCount()).to.equal(5000);
+            await nft.initializeTokens(1000);
+            expect(await nft.getTokensInitializedCount()).to.equal(1000);
+
+            await nft.initializeTokens(1000);
+            expect(await nft.getTokensInitializedCount()).to.equal(2000);
+
+            await nft.initializeTokens(3000);
+            expect(await nft.getTokensInitializedCount()).to.equal(5000);
             
         })
     })
