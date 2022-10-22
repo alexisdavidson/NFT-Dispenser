@@ -19,12 +19,16 @@ import TokenAddress from '../contractsData/Token-address.json'
 import configContract from './configContract';
 import rotate from './assets/rotate.png'
 
+const fromWei = (num) => ethers.utils.formatEther(num)
+const toWei = (num) => ethers.utils.parseEther(num.toString())
+
 function App() {
   const [loading, setLoading] = useState(true)
   const [items, setItems] = useState([])
   const [account, setAccount] = useState(null)
   const [nft, setNFT] = useState({})
   const [token, setToken] = useState({})
+  const [allowance, setAllowance] = useState("")
 
   // MetaMask Login/Connect
   const web3Handler = async () => {
@@ -68,6 +72,7 @@ function App() {
 
     setNFT(nft)
     setToken(token)
+    setAllowance(fromWei(await token.allowance(acc, nft.address)))
     setLoading(false)
     
     loadOpenSeaItems(acc, NFTAddress.address)
@@ -79,7 +84,7 @@ function App() {
         {/* <Navigation web3Handler={web3Handler} account={account} /> */}
         <Routes>
           <Route path="/" element={
-            <Home web3Handler={web3Handler} account={account} nft={nft} token={token} items={items}>
+            <Home web3Handler={web3Handler} account={account} nft={nft} token={token} items={items} allowance={allowance}>
               </Home>
           } />
           <Route path="/admin" element={

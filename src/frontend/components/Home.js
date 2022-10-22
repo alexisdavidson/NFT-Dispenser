@@ -10,7 +10,7 @@ import info from './assets/info_button01.png'
 const fromWei = (num) => ethers.utils.formatEther(num)
 const toWei = (num) => ethers.utils.parseEther(num.toString())
 
-const Home = ({ web3Handler, account, nft, token, items }) => {
+const Home = ({ web3Handler, account, nft, token, items, allowance }) => {
     const [playing, setPlaying] = useState(false)
     const [showInfo, setShowInfo] = useState(false);
     const [showPrize, setShowPrize] = useState(false);
@@ -59,19 +59,41 @@ const Home = ({ web3Handler, account, nft, token, items }) => {
         setShowCrank(true);
     }
 
-    const triggerMint = async () => {
+    const triggerPlay = async () => {
+        console.log("triggerPlay");
         handleClose()
+
+        // Connect
         if (account == null) {
             web3Handler();
             return;
         }
 
+        // Approve
+        if (allowance != "900000.0") {
+            await token.approve(nft.address, toWei(900000))
+            return;
+        }
+
+        triggerMint()
+    }
+
+    const triggerMint = async () => {
+        console.log("triggerMint");
         setPlaying(true)
         console.log("play")
-
-        await token.approve(nft.address, toWei(900000))
         await nft.mint()
         setPlaying(false)
+    }
+
+    
+    const listenToEvents = async () => {
+        token.on("Approval", (owner, spender, value) => {
+            console.log("Approval");
+            console.log(owner, spender, fromWei(value));
+
+            triggerMint();
+        });
     }
 
     const updateRedeemTokenWish = event => {
@@ -99,6 +121,7 @@ const Home = ({ web3Handler, account, nft, token, items }) => {
     }
 
     useEffect(() => {
+        listenToEvents()
     }, [])
 
     return (
@@ -111,7 +134,18 @@ const Home = ({ web3Handler, account, nft, token, items }) => {
                     </Row>
                     <Row style={{marginTop: "16vh"}}>
                         <a href="#">
-                            <div class="roseButton my-3" onClick={triggerMint} ><p>CRANK</p></div>
+                            <div class="roseButton my-3" onClick={triggerPlay} >
+                                    {allowance == "900000.0" ? 
+                                    <p>
+                                        CRANK
+                                    </p>
+                                : (
+                                    <p>
+                                        ALLOW
+                                    </p>
+                                )
+                                    }
+                            </div>
                         </a>
                     </Row>
                     <Row className="m-0 p-0">
