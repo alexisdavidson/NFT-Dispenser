@@ -90,7 +90,7 @@ const Home = ({ web3Handler, account, nft, token, items }) => {
     }
 
     const isNftWinner = (item) => {
-        if (item.traits.filter(e => e.trait_type == "Headgear")[0].value == "Soda Cap" // change to NFT Winner when not testing
+        if (item.traits.filter(e => e.trait_type == "Headgear")[0].value == "NFT Winner"
         || item.traits.filter(e => e.trait_type == "Hand")[0].value == "NFT Winner"
         || item.traits.filter(e => e.trait_type == "Top")[0].value == "NFT Winner") {
             return true;
@@ -209,12 +209,12 @@ const Home = ({ web3Handler, account, nft, token, items }) => {
                             <h2 className="mt-4" style={{ fontSize: "5vh"}}>REDEEM FOR?</h2>
                         </Row>
                         <Row className="mx-auto mt-0">
-                            <Form>
+                            {/* <Form>
                                 <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
                                     <Form.Control onChange={updateRedeemTokenWish.bind(this)} placeholder="(TYPE IN YOUR DESIRED NFT)"/>
                                 </Form.Group>
-                            </Form>
-                            <p className="mt-1" style={{ fontSize: "3vh"}}>If your desired NFT cost more than your winning value, we will randomly choose the NFT for you. Choose wisely!</p>
+                            </Form> */}
+                            {/* <p className="mt-1" style={{ fontSize: "3vh"}}>If your desired NFT cost more than your winning value, we will randomly choose the NFT for you. Choose wisely!</p> */}
                             <a href="#">
                                 <div class="pinkButton" onClick={triggerRedeem} ><p>CONFIRM</p></div>
                             </a>

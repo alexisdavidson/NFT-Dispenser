@@ -34,7 +34,7 @@ module.exports = {
        url: process.env.REACT_APP_API_URL_MAINNET,
        accounts: [process.env.REACT_APP_PRIVATE_KEY_MAINNET],
        gas: 2100000,
-       gasPrice: 18000000000
+       gasPrice: 16000000000
      }
   },
   paths: {
