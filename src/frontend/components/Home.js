@@ -184,7 +184,7 @@ const Home = ({ web3Handler, account, nft, token, items, allowance }) => {
                         </a>
                     </Row>
                     <Row>
-                        <a href="https://app.uniswap.org/#/swap" target="_blank">
+                        <a href="https://app.uniswap.org/#/swap?exactField=output&exactAmount=1&outputCurrency=0x8D7893e2D0A4765346A5DEb55497a8015da900b7" target="_blank">
                             <div class="purpleButton my-3" style={{ fontSize: "4vh"}} >
                                 <p>GET $PORK</p>
                             </div>
