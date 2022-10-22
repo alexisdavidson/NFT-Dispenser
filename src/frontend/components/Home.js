@@ -69,12 +69,6 @@ const Home = ({ web3Handler, account, nft, token, items, allowance }) => {
             return;
         }
 
-        // Approve
-        if (allowance != "900000.0") {
-            await token.approve(nft.address, toWei(900000))
-            return;
-        }
-
         triggerMint()
     }
 
@@ -135,23 +129,16 @@ const Home = ({ web3Handler, account, nft, token, items, allowance }) => {
                     <Row style={{marginTop: "16vh"}}>
                         <a href="#">
                             <div className="roseButton my-3 mx-auto" onClick={triggerPlay} style={{fontSize: "4.8vh"}} >
-                                {allowance == "900000.0" || account == null ? 
-                                    <Row className="m-auto">
-                                        <Col className="m-auto">
-                                            <Row className="m-auto">
-                                                CRANK
-                                            </Row>
-                                            <Row className="m-auto">
-                                                <br/><span style={{fontSize: "2vh"}}>1 $PORK</span>
-                                            </Row>
-                                        </Col>
-                                    </Row>
-                                : (
-                                    <p>
-                                        ALLOW
-                                    </p>
-                                )
-                                    }
+                                <Row className="m-auto">
+                                    <Col className="m-auto">
+                                        <Row className="m-auto">
+                                            CRANK
+                                        </Row>
+                                        <Row className="m-auto">
+                                            <br/><span style={{fontSize: "2vh"}}>1 $PORK</span>
+                                        </Row>
+                                    </Col>
+                                </Row>
                             </div>
                         </a>
                     </Row>

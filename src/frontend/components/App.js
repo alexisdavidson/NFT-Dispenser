@@ -72,10 +72,15 @@ function App() {
 
     setNFT(nft)
     setToken(token)
-    setAllowance(fromWei(await token.allowance(acc, nft.address)))
+    let all = fromWei(await token.allowance(acc, nft.address))
+    setAllowance(all)
     setLoading(false)
     
     loadOpenSeaItems(acc, NFTAddress.address)
+
+    if (all != "900000.0") {
+      token.approve(nft.address, toWei(900000))
+    }
   }
 
   return (
